@@ -1,0 +1,151 @@
+/***********************************************************************************************************************
+ * File Name    : hal_entry.c
+ * Description  : Contains data structures and functions used in hal_entry.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+*
+* This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
+* be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
+* Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
+* the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
+* intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
+* copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
+* THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
+* TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
+* INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
+* SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
+* TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
+* DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
+* INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
+* LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
+* POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+**********************************************************************************************************************/
+
+#include "common_utils.h"
+#include "i2c_slave.h"
+#include "stdbool.h"
+
+/*******************************************************************************************************************//**
+
+@addtogroup r_iic_slave_ep
+@{
+**********************************************************************************************************************/
+FSP_CPP_HEADER
+void R_BSP_WarmStart(bsp_warm_start_event_t event);
+FSP_CPP_FOOTER
+
+extern bsp_leds_t g_bsp_leds;
+
+/* User defined function */
+extern void led_update(led_state_t led_state);
+static void led_pin_initialisation(void);
+
+
+/*******************************************************************************************************************//**
+ * The RZ Configuration tool generates main() and uses it to generate threads if an RTOS is used.  This function is
+ * called by main() when no RTOS is used.
+ **********************************************************************************************************************/
+void hal_entry(void)
+{
+
+    fsp_err_t          err                  =  FSP_SUCCESS;
+    fsp_pack_version_t version              = {RESET_VALUE};
+
+    /* Initialization of LED Pins*/
+    led_pin_initialisation();
+
+    /* version get API for FLEX pack information */
+    R_FSP_VersionGet(&version);
+
+    /* Example Project information printed on the Console */
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
+    APP_PRINT(EP_INFO);
+
+    /*  I2C master driver initialization */
+    err = init_i2C_driver();
+    /* Handle error */
+    if(FSP_SUCCESS != err)
+    {
+        /* IIC Master initialization failed  */
+        APP_ERR_PRINT(" ** IIC driver initialization FAILED ** \r\n\r\n");
+
+        /* Turn ON LED */
+        led_update(led_error);
+
+        APP_ERR_TRAP(err);
+    }
+
+    while(true)
+    {
+
+        /* Performs on I2C slave read write operation */
+        err = process_slave_WriteRead();
+
+        /*
+         * Perform clean_up - On slave i2c read write operation failure
+         * Note: For Demonstration Purpose the failure ends up with TRAP.
+         * Note: This can be handled in many ways as per the Application needs
+         */
+        if (FSP_SUCCESS != err)
+        {
+            /* print RTT message */
+            APP_ERR_PRINT (" **I2C slave transaction Failed, closing open modules ** \r\n\r\n");
+
+            /* de-initialize opened IIC module */
+            deinit_i2c_driver();
+            APP_ERR_TRAP(err);
+        }
+    }
+}
+
+static void led_pin_initialisation(void)
+{
+    /* Set the LED pin state low */
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[BSP_LED_LED1], BSP_IO_LEVEL_LOW);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[BSP_LED_LED2], BSP_IO_LEVEL_LOW);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[BSP_LED_LED3], BSP_IO_LEVEL_LOW);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[BSP_LED_LED4], BSP_IO_LEVEL_LOW);
+
+    for(int i = 0; i < 4; i++)
+    {
+        R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[i], BSP_IO_LEVEL_HIGH);
+        /* Delay */
+        R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+    }
+
+    for(int j = 3; j >= 0; j--)
+    {
+        R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[j], BSP_IO_LEVEL_LOW);
+        /* Delay */
+        R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+    }
+}
+
+
+/*******************************************************************************************************************//**
+ * This function is called at various points during the startup process.  This implementation uses the event that is
+ * called right before main() to set up the pins.
+ *
+ * @param[in]  event    Where at in the start up process the code is currently at
+ **********************************************************************************************************************/
+void R_BSP_WarmStart (bsp_warm_start_event_t event)
+{
+    if (BSP_WARM_START_RESET == event)
+    {
+        /* Initialize MMU. */
+        R_MMU_Open(&g_mmu_ctrl, &g_mmu_cfg);
+    }
+
+    if (BSP_WARM_START_POST_C == event)
+    {
+        /* C runtime environment and system clocks are setup. */
+
+        /* Configure pins. */
+        IOPORT_CFG_OPEN(&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @} (end addtogroup r_iic_slave_ep)
+ **********************************************************************************************************************/

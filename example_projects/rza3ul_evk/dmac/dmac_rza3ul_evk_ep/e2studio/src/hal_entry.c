@@ -1,0 +1,144 @@
+/***********************************************************************************************************************
+ * File Name    : hal_entry.c
+ * Description  : Contains data structures and functions used in hal_entry.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+ * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ *
+ * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
+ * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
+ * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
+ * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
+ * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
+ * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
+ * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
+ * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
+ * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
+ * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
+ * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
+ * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
+ * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
+ * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
+ * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ **********************************************************************************************************************/
+
+#include "common_utils.h"
+#include "dmac_transfers.h"
+#include "timer_initialise.h"
+#include "transfer_initialise.h"
+#include "stdbool.h"
+
+void R_BSP_WarmStart(bsp_warm_start_event_t event);
+
+/*******************************************************************************************************************//**
+ * The RZ/A3UL Configuration tool generates main() and uses it to generate threads if an RTOS is used.  This function is
+ * called by main() when no RTOS is used.
+ **********************************************************************************************************************/
+void hal_entry(void)
+{
+    fsp_err_t fsp_err = FSP_SUCCESS;    /* Variable to help handle error codes from functions*/
+    fsp_pack_version_t version = { RESET_VALUE };     /* fsp variable to store major/minor versions*/
+
+    /* Array to store input from Tera Term terminal */
+    uint8_t rtt_input_data[BUFFER_SIZE_DOWN] = { RESET_VALUE };
+    uint8_t converted_rtt_input = RESET_VALUE;
+
+    /* Fetch FSP version to display on Tera Term */
+    R_FSP_VersionGet (&version);
+
+    /* Example Project information printed on the Tera Term */
+    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
+    APP_PRINT(EP_INFO);
+    APP_PRINT(MENU);
+
+    while(true)
+    {
+        /* Check for input data from Tera Term, once data is available read. */
+        if (APP_CHECK_DATA)
+        {
+            memset(rtt_input_data, RESET_VALUE , sizeof(rtt_input_data));
+            /* Reading complete input instead of 1 byte to avoid processing of
+             * successive extra bytes entered */
+            APP_READ(rtt_input_data);
+            /* Considering both input sending type from Tera Term and checking for valid input */
+            if((NEW_LINE != rtt_input_data[EXPECTED_CHAR_END_INDEX]) && (NULL_CHAR != rtt_input_data[EXPECTED_CHAR_END_INDEX]))
+            {
+                APP_PRINT("\r\nProvide a valid input.\n");
+            }
+            else
+            {
+                converted_rtt_input = (uint8_t)atoi((char *)rtt_input_data);
+                if( START_TRANSFER_ON_LED_PORT == converted_rtt_input )
+                {
+                    /* DMAC g_transfer_led_blink (runs in Normal mode) transfers data
+                     * from source array to port control register(LED) for specified
+                     * number of counts(60).DMAC g_transfer_led_blink alters the state
+                     * of the LED and stops. */
+                    transfer_led_blink_operation();
+
+                    /* De-initialize g_transfer_led_blink */
+                    dmac_transfer_deinit(&g_transfer_led_blink_ctrl);
+
+                    /* De-initialize GTM */
+                    gtm_timer_deinit();
+                }
+                /* check for user input to transfer current mtu value to destination array */
+                else if(START_TRANSFER_MTU_VALUE == converted_rtt_input)
+                {
+                    /* DMAC g_transfer_mtu_value (runs in Block mode) transfers data
+                     * transfers data from the MTU counter register to destination. */
+                    transfer_mtu_value();
+
+                    /* Start DMAC transfer continuously  */
+                    fsp_err = dmac_transfer_software_start(&g_transfer_mtu_value_ctrl);
+
+                    /* Handle error in-case of failure */
+                    if (FSP_SUCCESS != fsp_err)
+                    {
+                        dmac_transfer_deinit(&g_transfer_mtu_value_ctrl);
+                        mtu3_timer_deinit();
+                        APP_ERR_TRAP(fsp_err);
+                    }
+
+                    /* Print the received data  */
+                    dmac_transfer_print_data();
+
+                    /* De-initialize g_transfer_continuously */
+                    dmac_transfer_deinit(&g_transfer_mtu_value_ctrl);
+
+                    /* De-initialize MTU3 */
+                    mtu3_timer_deinit();
+                }
+                else
+                {
+                    APP_PRINT("\r\nProvide a valid input.\n");
+                }
+                APP_PRINT(MENU);
+            }
+        }
+    }
+}
+
+
+/*******************************************************************************************************************//**
+ * This function is called at various points during the startup process.  This implementation uses the event that is
+ * called right before main() to set up the pins.
+ *
+ * @param[in]  event    Where at in the start up process the code is currently at
+ **********************************************************************************************************************/
+void R_BSP_WarmStart (bsp_warm_start_event_t event)
+{
+    if (BSP_WARM_START_RESET == event)
+    {
+        /* Initialize MMU. */
+        R_MMU_Open(&g_mmu_ctrl, &g_mmu_cfg);
+    }
+
+    if (BSP_WARM_START_POST_C == event)
+    {
+        /* C runtime environment and system clocks are setup. */
+
+        /* Configure pins. */
+        IOPORT_CFG_OPEN(&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
+    }
+}

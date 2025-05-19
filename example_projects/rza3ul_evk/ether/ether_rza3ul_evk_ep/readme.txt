@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -16,7 +16,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 1. Project Overview:
     The example project demonstrates the use of the FreeRTOS + TCP Module with Ethernet.
@@ -28,7 +28,7 @@
     Besides this example also checks, calculates, and shows the send and response time between 
     the target board and server.
     NOTE: User is expected to enter the static IP address according to the network settings of the LAN.
-	  For example, set up Static IP Configuration in net_thread_entry.c as below:
+	  For example, set up Static IP Configuration in g_rm_freertos_plus_tcp0 -> FreeRTOS+TCP Wrapper to r_gether as below:
 		static uint8_t ucMACAddress[6]       = {0x00, 0x11, 0x33, 0x55, 0x77, 0x99};
 		static uint8_t ucIPAddress[4]        = {192, 168, 3, 109};
 		static uint8_t ucNetMask[4]          = {255, 255, 255, 0};

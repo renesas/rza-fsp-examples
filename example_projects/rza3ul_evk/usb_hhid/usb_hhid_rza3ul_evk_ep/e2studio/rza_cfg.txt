@@ -14,10 +14,10 @@ FSP Configuration
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     
-  RZ/A3UL Common
+  RZ/A FSP Common
     Secure stack size (bytes): 0x200
-    Main stack size (bytes): 0x200
-    Heap size (bytes): 0
+    Main stack size (bytes): 0x2000
+    Heap size (bytes): 0x2000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -63,8 +63,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -205,13 +205,13 @@ FSP Configuration
       P4_3 T3 - - - - Disabled - - "ETHER0: ET0_MDC; MTU3: MTIOC3B; MTU8: MTIOC8D; RSPI1: RSPI1_SSL" - None - - 
       P4_4 T2 - - - - Disabled - - "ETHER0: ET0_MDIO; MTU3: MTIOC3C" - None - - 
       P4_5 P1 - - - - Disabled - - "ETHER0: ET0_LINKSTA; MTU3: MTIOC3D" - None - - 
-      P5_0 AD3 - - - - Disabled - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - None - - 
+      P5_0 AD3 USB0_USB0_VBUSEN - Middle - "Peripheral mode" - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - O - - 
       P5_1 AC3 - - - - Disabled - - "ADC: ADC_TRG; IRQ: IRQ2; MTU7: MTIOC7B; RSPI0: RSPI0_SSL; SCI0: SCI0_CTS#_RTS#; SCIF2: SCIF2_RXD" - None - - 
-      P5_2 AE3 - - - - Disabled - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - None - - 
-      P5_3 AD2 - - - - Disabled - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - None - - 
-      P5_4 AB3 - - - - Disabled - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - None - - 
-      P6_0 AD1 USB1_USB1_VBUSEN - Middle - "Peripheral mode" - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - O - - 
-      P6_1 AE2 USB1_USB1_OVRCUR - Middle - "Peripheral mode" - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - I - - 
+      P5_2 AE3 USB0_USB0_OVRCUR - Middle - "Peripheral mode" - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - I - - 
+      P5_3 AD2 USB0_USB0_OTG_ID - Middle - "Peripheral mode" - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - I - - 
+      P5_4 AB3 USB0_USB0_OTG_EXICEN - Middle - "Peripheral mode" - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - O - - 
+      P6_0 AD1 - - - - Disabled - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - None - - 
+      P6_1 AE2 - - - - Disabled - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - None - - 
       P6_2 AB2 - - - - Disabled - - "ADC: ADC_TRG; CAN0: CAN0_RX; IRQ: IRQ2; MTU7: MTIOC7C; RSPI2: RSPI2_MISO; SCIF2: SCIF2_SCK" - None - - 
       P6_3 AC1 SCIF0_SCIF0_RXD - UltraHigh - "Peripheral mode" - - "CAN0: CAN0_TX_DATARATE_EN; IRQ: IRQ3; MTU7: MTIOC7D; RIIC2: RIIC2_SDA; RSPI2: RSPI2_SSL; SCIF0: SCIF0_RXD; SCIF2: SCIF2_CTS" - IO - - 
       P6_4 AC2 SCIF0_SCIF0_TXD - UltraHigh - "Peripheral mode" - - "ADC: ADC_TRG; CAN0: CAN0_RX_DATARATE_EN; IRQ: IRQ4; RIIC2: RIIC2_SCL; SCIF0: SCIF0_TXD; SCIF2: SCIF2_RTS" - IO - - 
@@ -283,11 +283,11 @@ FSP Configuration
       TDO V2 - - - - - - - - - None - - 
       TMS_SWDIO U1 - - - - - - - - - None - - 
       TRST# V1 - - - - - - - - - None - - 
-      USB0_DM AE6 - - - - - - - - - None - - 
-      USB0_DP AD6 - - - - - - - - - None - - 
-      USB0_VBUSIN AD8 - - - - - - - - - None - - 
-      USB1_DM AE5 USB1_USB1_DM - - - - - - - - IO - - 
-      USB1_DP AD5 USB1_USB1_DP - - - - - - - - IO - - 
+      USB0_DM AE6 USB0_USB0_DM - - - - - - - - IO - - 
+      USB0_DP AD6 USB0_USB0_DP - - - - - - - - IO - - 
+      USB0_VBUSIN AD8 USB0_USB0_VBUSIN - - - - - - - - IO - - 
+      USB1_DM AE5 - - - - - - - - - None - - 
+      USB1_DP AD5 - - - - - - - - - None - - 
       USB_AVDD18 AC9 "Power, System_USB_AVDD18" - - - - - - - - IO "Read only" - 
       USB_RREF AC8 - - - - - - - - - - "Read only" - 
       USB_VDD18 AC4 "Power, System_USB_VDD18" - - - - - - - - IO "Read only" - 
@@ -425,8 +425,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -567,13 +567,13 @@ FSP Configuration
       P4_3 T3 - - - - Disabled - - "ETHER0: ET0_MDC; MTU3: MTIOC3B; MTU8: MTIOC8D; RSPI1: RSPI1_SSL" - None - - 
       P4_4 T2 - - - - Disabled - - "ETHER0: ET0_MDIO; MTU3: MTIOC3C" - None - - 
       P4_5 P1 - - - - Disabled - - "ETHER0: ET0_LINKSTA; MTU3: MTIOC3D" - None - - 
-      P5_0 AD3 - - - - Disabled - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - None - - 
+      P5_0 AD3 - - Middle - Disabled - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - O - - 
       P5_1 AC3 - - - - Disabled - - "ADC: ADC_TRG; IRQ: IRQ2; MTU7: MTIOC7B; RSPI0: RSPI0_SSL; SCI0: SCI0_CTS#_RTS#; SCIF2: SCIF2_RXD" - None - - 
-      P5_2 AE3 - - - - Disabled - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - None - - 
-      P5_3 AD2 - - - - Disabled - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - None - - 
-      P5_4 AB3 - - - - Disabled - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - None - - 
-      P6_0 AD1 - - Middle - Disabled - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - O - - 
-      P6_1 AE2 - - Middle - Disabled - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - I - - 
+      P5_2 AE3 - - Middle - Disabled - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - I - - 
+      P5_3 AD2 - - Middle - Disabled - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - I - - 
+      P5_4 AB3 - - Middle - Disabled - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - O - - 
+      P6_0 AD1 - - - - Disabled - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - None - - 
+      P6_1 AE2 - - - - Disabled - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - None - - 
       P6_2 AB2 - - - - Disabled - - "ADC: ADC_TRG; CAN0: CAN0_RX; IRQ: IRQ2; MTU7: MTIOC7C; RSPI2: RSPI2_MISO; SCIF2: SCIF2_SCK" - None - - 
       P6_3 AC1 - - Middle - Disabled - - "CAN0: CAN0_TX_DATARATE_EN; IRQ: IRQ3; MTU7: MTIOC7D; RIIC2: RIIC2_SDA; RSPI2: RSPI2_SSL; SCIF0: SCIF0_RXD; SCIF2: SCIF2_CTS" - IO - - 
       P6_4 AC2 - - Middle - Disabled - - "ADC: ADC_TRG; CAN0: CAN0_RX_DATARATE_EN; IRQ: IRQ4; RIIC2: RIIC2_SCL; SCIF0: SCIF0_TXD; SCIF2: SCIF2_RTS" - IO - - 
@@ -645,11 +645,11 @@ FSP Configuration
       TDO V2 - - - - - - - - - None - - 
       TMS_SWDIO U1 - - - - - - - - - None - - 
       TRST# V1 - - - - - - - - - None - - 
-      USB0_DM AE6 - - - - - - - - - None - - 
-      USB0_DP AD6 - - - - - - - - - None - - 
-      USB0_VBUSIN AD8 - - - - - - - - - None - - 
-      USB1_DM AE5 - - - - - - - - - IO - - 
-      USB1_DP AD5 - - - - - - - - - IO - - 
+      USB0_DM AE6 - - - - - - - - - IO - - 
+      USB0_DP AD6 - - - - - - - - - IO - - 
+      USB0_VBUSIN AD8 - - - - - - - - - IO - - 
+      USB1_DM AE5 - - - - - - - - - None - - 
+      USB1_DP AD5 - - - - - - - - - None - - 
       USB_AVDD18 AC9 "Power, System_USB_AVDD18" - - - - - - - - IO "Read only" - 
       USB_RREF AC8 - - - - - - - - - - "Read only" - 
       USB_VDD18 AC4 "Power, System_USB_VDD18" - - - - - - - - IO "Read only" - 
@@ -787,8 +787,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -929,13 +929,13 @@ FSP Configuration
       P4_3 T3 - - - - Disabled - - "ETHER0: ET0_MDC; MTU3: MTIOC3B; MTU8: MTIOC8D; RSPI1: RSPI1_SSL" - None - - 
       P4_4 T2 - - - - Disabled - - "ETHER0: ET0_MDIO; MTU3: MTIOC3C" - None - - 
       P4_5 P1 - - - - Disabled - - "ETHER0: ET0_LINKSTA; MTU3: MTIOC3D" - None - - 
-      P5_0 AD3 - - - - Disabled - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - None - - 
+      P5_0 AD3 USB0_USB0_VBUSEN - Middle - "Peripheral mode" - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - O - - 
       P5_1 AC3 - - - - Disabled - - "ADC: ADC_TRG; IRQ: IRQ2; MTU7: MTIOC7B; RSPI0: RSPI0_SSL; SCI0: SCI0_CTS#_RTS#; SCIF2: SCIF2_RXD" - None - - 
-      P5_2 AE3 - - - - Disabled - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - None - - 
-      P5_3 AD2 - - - - Disabled - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - None - - 
-      P5_4 AB3 - - - - Disabled - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - None - - 
-      P6_0 AD1 USB1_USB1_VBUSEN - Middle - "Peripheral mode" - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - O - - 
-      P6_1 AE2 USB1_USB1_OVRCUR - Middle - "Peripheral mode" - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - I - - 
+      P5_2 AE3 USB0_USB0_OVRCUR - Middle - "Peripheral mode" - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - I - - 
+      P5_3 AD2 USB0_USB0_OTG_ID - Middle - "Peripheral mode" - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - I - - 
+      P5_4 AB3 USB0_USB0_OTG_EXICEN - Middle - "Peripheral mode" - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - O - - 
+      P6_0 AD1 - - - - Disabled - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - None - - 
+      P6_1 AE2 - - - - Disabled - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - None - - 
       P6_2 AB2 - - - - Disabled - - "ADC: ADC_TRG; CAN0: CAN0_RX; IRQ: IRQ2; MTU7: MTIOC7C; RSPI2: RSPI2_MISO; SCIF2: SCIF2_SCK" - None - - 
       P6_3 AC1 SCIF0_SCIF0_RXD - UltraHigh - "Peripheral mode" - - "CAN0: CAN0_TX_DATARATE_EN; IRQ: IRQ3; MTU7: MTIOC7D; RIIC2: RIIC2_SDA; RSPI2: RSPI2_SSL; SCIF0: SCIF0_RXD; SCIF2: SCIF2_CTS" - IO - - 
       P6_4 AC2 SCIF0_SCIF0_TXD - UltraHigh - "Peripheral mode" - - "ADC: ADC_TRG; CAN0: CAN0_RX_DATARATE_EN; IRQ: IRQ4; RIIC2: RIIC2_SCL; SCIF0: SCIF0_TXD; SCIF2: SCIF2_RTS" - IO - - 
@@ -1007,11 +1007,11 @@ FSP Configuration
       TDO V2 - - - - - - - - - None - - 
       TMS_SWDIO U1 - - - - - - - - - None - - 
       TRST# V1 - - - - - - - - - None - - 
-      USB0_DM AE6 - - - - - - - - - None - - 
-      USB0_DP AD6 - - - - - - - - - None - - 
-      USB0_VBUSIN AD8 - - - - - - - - - None - - 
-      USB1_DM AE5 USB1_USB1_DM - - - - - - - - IO - - 
-      USB1_DP AD5 USB1_USB1_DP - - - - - - - - IO - - 
+      USB0_DM AE6 USB0_USB0_DM - - - - - - - - IO - - 
+      USB0_DP AD6 USB0_USB0_DP - - - - - - - - IO - - 
+      USB0_VBUSIN AD8 USB0_USB0_VBUSIN - - - - - - - - IO - - 
+      USB1_DM AE5 - - - - - - - - - None - - 
+      USB1_DP AD5 - - - - - - - - - None - - 
       USB_AVDD18 AC9 "Power, System_USB_AVDD18" - - - - - - - - IO "Read only" - 
       USB_RREF AC8 - - - - - - - - - - "Read only" - 
       USB_VDD18 AC4 "Power, System_USB_VDD18" - - - - - - - - IO "Read only" - 
@@ -1149,8 +1149,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -1291,13 +1291,13 @@ FSP Configuration
       P4_3 T3 - - - - Disabled - - "ETHER0: ET0_MDC; MTU3: MTIOC3B; MTU8: MTIOC8D; RSPI1: RSPI1_SSL" - None - - 
       P4_4 T2 - - - - Disabled - - "ETHER0: ET0_MDIO; MTU3: MTIOC3C" - None - - 
       P4_5 P1 - - - - Disabled - - "ETHER0: ET0_LINKSTA; MTU3: MTIOC3D" - None - - 
-      P5_0 AD3 - - - - Disabled - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - None - - 
+      P5_0 AD3 USB0_USB0_VBUSEN - Middle - "Peripheral mode" - - "MTU7: MTIOC7A; SCIF2: SCIF2_TXD; USB0: USB0_VBUSEN" - O - - 
       P5_1 AC3 - - - - Disabled - - "ADC: ADC_TRG; IRQ: IRQ2; MTU7: MTIOC7B; RSPI0: RSPI0_SSL; SCI0: SCI0_CTS#_RTS#; SCIF2: SCIF2_RXD" - None - - 
-      P5_2 AE3 - - - - Disabled - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - None - - 
-      P5_3 AD2 - - - - Disabled - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - None - - 
-      P5_4 AB3 - - - - Disabled - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - None - - 
-      P6_0 AD1 USB1_USB1_VBUSEN - Middle - "Peripheral mode" - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - O - - 
-      P6_1 AE2 USB1_USB1_OVRCUR - Middle - "Peripheral mode" - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - I - - 
+      P5_2 AE3 USB0_USB0_OVRCUR - Middle - "Peripheral mode" - - "MTU7: MTIOC7C; SCIF2: SCIF2_SCK; SSI2: SSI2_BCK; USB0: USB0_OVRCUR" - I - - 
+      P5_3 AD2 USB0_USB0_OTG_ID - Middle - "Peripheral mode" - - "MTU7: MTIOC7D; SCIF2: SCIF2_CTS; SSI2: SSI2_RCK; USB0: USB0_OTG_ID; USB1: USB1_VBUSEN" - I - - 
+      P5_4 AB3 USB0_USB0_OTG_EXICEN - Middle - "Peripheral mode" - - "SCIF2: SCIF2_RTS; SSI2: SSI2_DATA; USB0: USB0_OTG_EXICEN; USB1: USB1_OVRCUR" - O - - 
+      P6_0 AD1 - - - - Disabled - - "CAN_: CAN_CLK; MTU7: MTIOC7A; RSPI2: RSPI2_CK; SCIF2: SCIF2_TXD; USB1: USB1_VBUSEN" - None - - 
+      P6_1 AE2 - - - - Disabled - - "CAN0: CAN0_TX; MTU7: MTIOC7B; RSPI2: RSPI2_MOSI; SCIF2: SCIF2_RXD; USB1: USB1_OVRCUR" - None - - 
       P6_2 AB2 - - - - Disabled - - "ADC: ADC_TRG; CAN0: CAN0_RX; IRQ: IRQ2; MTU7: MTIOC7C; RSPI2: RSPI2_MISO; SCIF2: SCIF2_SCK" - None - - 
       P6_3 AC1 SCIF0_SCIF0_RXD - UltraHigh - "Peripheral mode" - - "CAN0: CAN0_TX_DATARATE_EN; IRQ: IRQ3; MTU7: MTIOC7D; RIIC2: RIIC2_SDA; RSPI2: RSPI2_SSL; SCIF0: SCIF0_RXD; SCIF2: SCIF2_CTS" - IO - - 
       P6_4 AC2 SCIF0_SCIF0_TXD - UltraHigh - "Peripheral mode" - - "ADC: ADC_TRG; CAN0: CAN0_RX_DATARATE_EN; IRQ: IRQ4; RIIC2: RIIC2_SCL; SCIF0: SCIF0_TXD; SCIF2: SCIF2_RTS" - IO - - 
@@ -1369,11 +1369,11 @@ FSP Configuration
       TDO V2 - - - - - - - - - None - - 
       TMS_SWDIO U1 - - - - - - - - - None - - 
       TRST# V1 - - - - - - - - - None - - 
-      USB0_DM AE6 - - - - - - - - - None - - 
-      USB0_DP AD6 - - - - - - - - - None - - 
-      USB0_VBUSIN AD8 - - - - - - - - - None - - 
-      USB1_DM AE5 USB1_USB1_DM - - - - - - - - IO - - 
-      USB1_DP AD5 USB1_USB1_DP - - - - - - - - IO - - 
+      USB0_DM AE6 USB0_USB0_DM - - - - - - - - IO - - 
+      USB0_DP AD6 USB0_USB0_DP - - - - - - - - IO - - 
+      USB0_VBUSIN AD8 USB0_USB0_VBUSIN - - - - - - - - IO - - 
+      USB1_DM AE5 - - - - - - - - - None - - 
+      USB1_DP AD5 - - - - - - - - - None - - 
       USB_AVDD18 AC9 "Power, System_USB_AVDD18" - - - - - - - - IO "Read only" - 
       USB_RREF AC8 - - - - - - - - - - "Read only" - 
       USB_VDD18 AC4 "Power, System_USB_VDD18" - - - - - - - - IO "Read only" - 
@@ -1549,7 +1549,7 @@ FSP Configuration
     Hooks: Use Tick Hook: Disabled
     General: Cpu Clock Hz: SystemCoreClock
     General: Tick Rate Hz: 1000
-    General: Max Priorities: 31
+    General: Max Priorities: 15
     General: Minimal Stack Size: 128
     General: Max Task Name Len: 16
     Stats: Use Trace Facility: Disabled
@@ -1660,7 +1660,7 @@ FSP Configuration
         Name: g_usb_basic
         USB Mode: Host mode
         USB Speed: Hi Speed
-        USB Module Number: USB_ch1 Port
+        USB Module Number: USB_ch0 Port
         USB Device Class: Host Human Interface Device Class
         USB Compliance Callback: NULL
         USB ch0 Interrupt Priority: 24

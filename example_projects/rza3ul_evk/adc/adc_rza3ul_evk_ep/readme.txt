@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -16,7 +16,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 1. Project Overview:
     The example project demonstrates the function of r_adc_c driver.
@@ -31,12 +31,12 @@
 
 3. Hardware settings:
     Boot Mode:
-    Boot mode 3 (1.8-V Single, Quad, or Octal serial flash memory)
-	
+     Boot mode 3 (1.8-V Single, Quad, or Octal serial flash memory)
+
     Board:
-    RZ/A3UL Evaluation Board Kit QSPI Edition  (Exec with DDR SDRAM)
-    RZ/A3UL Evaluation Board Kit QSPI Edition  (eXecute-In-Place)
-    RZ/A3UL Evaluation Board Kit OCTAL Edition (eXecute-In-Place)
+     RZ/A3UL Evaluation Board Kit QSPI Edition  (Exec with DDR SDRAM)
+     RZ/A3UL Evaluation Board Kit QSPI Edition  (eXecute-In-Place)
+     RZ/A3UL Evaluation Board Kit OCTAL Edition (eXecute-In-Place)
 
     Hardware Connection:
 
@@ -65,6 +65,6 @@
                Jumper connects 2-4
 
     (2) Connect the J-Link Base and the connector on the SMRAC Module Board with JTAG cable.
-	    When connecting the conversion adapter "J-Link 9-pin Cortex-M Adapter" made by SEGGER will be required.
+         When connecting the conversion adapter "J-Link 9-pin Cortex-M Adapter" made by SEGGER will be required.
     (3) Connect with PC through USB Type-microB Connector (CN14) on Smarc Carrier Board.
     (4) Connect CN1 CH0 (ADC_CH0) on SMRAC Module Board and External Variable Power Supply Unit (Rheostats 10K).

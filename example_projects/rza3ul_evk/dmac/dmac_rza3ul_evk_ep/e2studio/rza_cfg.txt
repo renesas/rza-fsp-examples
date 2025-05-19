@@ -14,10 +14,10 @@ FSP Configuration
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     
-  RZ/A3UL Common
-    Secure stack size (bytes): 0x400
-    Main stack size (bytes): 0x400
-    Heap size (bytes): 0
+  RZ/A FSP Common
+    Secure stack size (bytes): 0x200
+    Main stack size (bytes): 0x2000
+    Heap size (bytes): 0x2000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -63,8 +63,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -425,8 +425,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -787,8 +787,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -1149,8 +1149,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -1533,54 +1533,54 @@ FSP Configuration
       Name: g_mmu
       
     Instance "g_transfer_led_blink Transfer Driver on r_dmac GTM_OSTM0INT"
-      Name: g_transfer_led_blink
-      Channel: 0
-      Mode: Normal
-      Source Data Size: 1 Byte
-      Destination Data Size: 1 Byte
-      Destination Address Mode: Fixed
-      Source Address Mode: Incremented
-      Activation Source: GTM_OSTM0INT
-      DMA Activation Request Source Select: Requested by a transfer source module
-      DMAC Mode: Register Mode
-      Callback: transfer_gtm_timer_callback
-      Context: NULL
-      Transfer End Interrupt Enable: Enabled
-      Transfer End Interrupt Priority: 1
-      Transfer Interval: 0
-      Channel Priority: Fixed
-      Transfer Continuation: Transfer with Setting 1 and Setting 2 alternately
-      Setting 1 Destination Address: NULL
-      Setting 1 Source Address: NULL
-      Setting 1 Total Number of Transfer Bytes: 60
-      Setting 2 Destination Address: NULL
-      Setting 2 Source Address: NULL
-      Setting 2 Total Number of Transfer Bytes: 1
+      General: Name: g_transfer_led_blink
+      General: Channel: 0
+      Register Mode: Mode: Normal
+      Register Mode: Source Data Size: 1 Byte
+      Register Mode: Destination Data Size: 1 Byte
+      Register Mode: Destination Address Mode: Fixed
+      Register Mode: Source Address Mode: Incremented
+      General: Activation Source: GTM_OSTM0INT
+      Register Mode: DMA Activation Request Source Select: Requested by a transfer source module
+      General: DMAC Mode: Register Mode
+      Link Mode: Descriptor: NULL
+      Interrupts: Callback: transfer_gtm_timer_callback
+      Interrupts: Transfer End Interrupt Enable: Enabled
+      Interrupts: Transfer End Interrupt Priority: 1
+      Register Mode: Transfer Interval: 0
+      General: Channel Priority: Fixed
+      Register Mode: Transfer Continuation: Transfer with Setting 1 and Setting 2 alternately
+      Register Mode: Setting 1 Destination Address: NULL
+      Register Mode: Setting 1 Source Address: NULL
+      Register Mode: Setting 1 Total Number of Transfer Bytes: 60
+      Register Mode: Setting 2 Destination Address: NULL
+      Register Mode: Setting 2 Source Address: NULL
+      Register Mode: Setting 2 Total Number of Transfer Bytes: 1
       
     Instance "g_transfer_mtu_value Transfer Driver on r_dmac SOFTWARE_TRIGGER"
-      Name: g_transfer_mtu_value
-      Channel: 1
-      Mode: Block
-      Source Data Size: 4 Bytes
-      Destination Data Size: 4 Bytes
-      Destination Address Mode: Incremented
-      Source Address Mode: Fixed
-      Activation Source: SOFTWARE_TRIGGER
-      DMA Activation Request Source Select: Requested by a transfer source module
-      DMAC Mode: Register Mode
-      Callback: NULL
-      Context: NULL
-      Transfer End Interrupt Enable: Disabled
-      Transfer End Interrupt Priority: 2
-      Transfer Interval: 8
-      Channel Priority: Fixed
-      Transfer Continuation: Transfer with Setting 1 and Setting 2 alternately
-      Setting 1 Destination Address: NULL
-      Setting 1 Source Address: NULL
-      Setting 1 Total Number of Transfer Bytes: 32
-      Setting 2 Destination Address: NULL
-      Setting 2 Source Address: NULL
-      Setting 2 Total Number of Transfer Bytes: 32
+      General: Name: g_transfer_mtu_value
+      General: Channel: 1
+      Register Mode: Mode: Block
+      Register Mode: Source Data Size: 4 Bytes
+      Register Mode: Destination Data Size: 4 Bytes
+      Register Mode: Destination Address Mode: Incremented
+      Register Mode: Source Address Mode: Fixed
+      General: Activation Source: SOFTWARE_TRIGGER
+      Register Mode: DMA Activation Request Source Select: Requested by a transfer source module
+      General: DMAC Mode: Register Mode
+      Link Mode: Descriptor: NULL
+      Interrupts: Callback: NULL
+      Interrupts: Transfer End Interrupt Enable: Disabled
+      Interrupts: Transfer End Interrupt Priority: 2
+      Register Mode: Transfer Interval: 8
+      General: Channel Priority: Fixed
+      Register Mode: Transfer Continuation: Transfer with Setting 1 and Setting 2 alternately
+      Register Mode: Setting 1 Destination Address: NULL
+      Register Mode: Setting 1 Source Address: NULL
+      Register Mode: Setting 1 Total Number of Transfer Bytes: 32
+      Register Mode: Setting 2 Destination Address: NULL
+      Register Mode: Setting 2 Source Address: NULL
+      Register Mode: Setting 2 Total Number of Transfer Bytes: 32
       
     Instance "g_mtu3 Timer Driver on r_mtu3"
       General: Name: g_mtu3
@@ -1593,8 +1593,8 @@ FSP Configuration
       General: Time Prescaler: P0CLK divided by 1  (common ch)
       General: Clock Edge: Rising
       General: Counter Clear Source: TGRA
-      Noise Filter: Extarnal Clock: Enable: 
-      Noise Filter: Extarnal Clock: Clock Select: P0CLK divided by 1
+      Noise Filter: External Clock: Enable: 
+      Noise Filter: External Clock: Clock Select: P0CLK divided by 1
       Noise Filter: Input Capture: Enable: 
       Noise Filter: Input Capture: Clock Select: P0CLK divided by 1
       I/O Control: MTIOCnA Pin Function: No Output
@@ -1602,10 +1602,10 @@ FSP Configuration
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Enable: Disabled
       Interrupts: Overflow/Crest Interrupt Priority: 24
-      Interrupts: Capture A Interrupt Enable: Disabled
-      Interrupts: Capture A Interrupt Priority: 24
-      Interrupts: Capture B Interrupt Enable: Disabled
-      Interrupts: Capture B Interrupt Priority: 24
+      Interrupts: Capture/Compare Match A Interrupt Enable: Disabled
+      Interrupts: Capture/Compare Match A Interrupt Priority: 24
+      Interrupts: Capture/Compare Match B Interrupt Enable: Disabled
+      Interrupts: Capture/Compare Match B Interrupt Priority: 24
       Extra Features: Extra Features Enable: Disabled
       Extra Features: ADC Trigger: Start request cycle A (Start Request Delaying Function): 0
       Extra Features: ADC Trigger: Start request cycle B (Start Request Delaying Function): 0

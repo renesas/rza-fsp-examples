@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -16,7 +16,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 1. Project Overview:
   The example project demonstrates the use of WDT module with the collaboration of module IRQ, GTM, WDT and button/led. 

@@ -2,9 +2,9 @@
  * File Name    : intc_irq_ep.h
  * Description  : Contains Macros and function declarations.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -20,7 +20,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- ***********************************************************************************************************************/
+ */
 
 #ifndef INTC_IRQ_EP_H_
 #define INTC_IRQ_EP_H_
@@ -29,7 +29,7 @@
 #define USER_SW_IRQ_NUMBER        (0x02)        /* Channel 2 */
 #define EP_INFO    "This Example Project demonstrates the functionality of INTC_IRQ \r\n" \
                    "driver. On pressing the user push button, an external IRQ is \r\n" \
-                   "triggered, which toggles on-board LED. \r\n\r\n"
+                   "triggered, which toggles Pmod LED. \r\n\r\n"
 
 
 /* Function declaration */

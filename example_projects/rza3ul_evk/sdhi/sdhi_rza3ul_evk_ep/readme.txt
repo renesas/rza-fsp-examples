@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -16,7 +16,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 1. Project Overview:
     This example project demonstrates basic functionalities of sdhi driver with FreeRTOS+FAT file system on Renesas
@@ -78,6 +78,3 @@ NOTE:
    "Initialize FreeRTOS+FAT" commands in sequence. This will make sure no operations fails after unexpected removal of SD Card.
 6. Operation is not guaranteed for any user input value other than integer, char(i.e. float, special char) through
    Terminal Emulator input.
-7. This example project is a preliminary version, so tentative source code is contained in the src\to_be_packed folder. 
-   The official version will pack the source code in the src\to_be_packed folder and move the src\to_be_packed folder
-   to the root folder.

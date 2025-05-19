@@ -2,9 +2,9 @@
  * File Name    : timer_pwm.c
  * Description  : Contains timer functions definition.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -20,9 +20,9 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
-#include "common_utils.h"
+#include "hal_data.h"
 #include "timer_pwm.h"
 #include "uart_ep.h"
 
@@ -98,7 +98,7 @@ fsp_err_t set_cycle(uint32_t raw_count)
         clock_freq = info.clock_frequency;
         raw_counts_periodic = (uint32_t)(raw_count * (clock_freq / 1000));
 
-        /* Period Set API set the desired cycle on the on-board LED */
+        /* Period Set API set the desired cycle on the PMOD LED */
         err = R_GTM_PeriodSet(&g_timer_ctrl, raw_counts_periodic);
         if(FSP_SUCCESS != err)
         {

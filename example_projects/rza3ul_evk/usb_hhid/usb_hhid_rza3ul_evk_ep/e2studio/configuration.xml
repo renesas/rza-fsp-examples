@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="9">
+<raConfiguration version="10">
   <generalSettings>
     <option key="#Board#" value="board.rza3ul_smarc_qspi"/>
     <option key="CPU" value="RZA3UL"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R9A07G063U02GBG"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R9A07G063U02GBG.pincfg"/>
-    <option key="#FSPVersion#" value="3.0.0"/>
+    <option key="#FSPVersion#" value="3.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi_xip##|Renesas##BSP##Board##rza3ul_smarc_qspi##|Renesas##BSP##Board##rza3ul_smarc_octal_xip##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-a-profile-aarch64"/>
     <option key="#ToolchainVersion#" value="13.2.1.20231009"/>
@@ -42,8 +42,8 @@
     </config>
     <config id="config.bsp.rz">
       <property id="config.bsp.common.secure_stack" value="0x200"/>
-      <property id="config.bsp.common.main" value="0x200"/>
-      <property id="config.bsp.common.heap" value="0"/>
+      <property id="config.bsp.common.main" value="0x2000"/>
+      <property id="config.bsp.common.heap" value="0x2000"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -129,65 +129,65 @@
     <node id="board.clock.hpclk.display" option="board.clock.hpclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.5.0">
       <description>Board support package for R9A07G063U02GBG</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
       <description>Board support package for RZA3UL</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
       <description>Board support package for RZ/A3UL (RZ/A3UL) - FSP Data</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.0.0">
-      <description>RZA Configuration Template File</description>
-      <originalPack>Renesas.RZA_config.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.3.0.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.3.5.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.3.0.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.3.5.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.5.0">
+      <description>RZA Configuration Template File</description>
+      <originalPack>Renesas.RZA_config.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gtm" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gtm" variant="" vendor="Renesas" version="3.5.0">
       <description>General Timer</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.5.0">
       <description>Memory Management Unit</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.5.0">
       <description>SCIF UART</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="3.5.0">
       <description>USB Basic</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_hhid" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_hhid" variant="" vendor="Renesas" version="3.5.0">
       <description>USB Host Human Interface Device Class</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.5.0">
       <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.5.0">
       <description>RZ/A3UL Evaluation Board Kit QSPI Edition (Exec with DDR SDRAM) Board Support Files</description>
-      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -220,7 +220,7 @@
       <property id="module.driver.basic.name" value="g_usb_basic"/>
       <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.host"/>
       <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.hs"/>
-      <property id="module.driver.usb_basic.usb_modulenumber" value="module.driver.usb_basic.usb_modulenumber.1"/>
+      <property id="module.driver.usb_basic.usb_modulenumber" value="module.driver.usb_basic.usb_modulenumber.0"/>
       <property id="module.driver.usb_basic.usb_classtype" value="module.driver.usb_basic.usb_classtype.pcdc"/>
       <property id="module.driver.usb_basic.complience_cb" value="NULL"/>
       <property id="module.driver.usb_basic.ch0_ipl" value="24"/>
@@ -325,7 +325,7 @@
       <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled"/>
       <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock"/>
       <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000"/>
-      <property id="config.awsfreertos.thread.configmax_priorities" value="31"/>
+      <property id="config.awsfreertos.thread.configmax_priorities" value="15"/>
       <property id="config.awsfreertos.thread.configminimal_stack_size" value="128"/>
       <property id="config.awsfreertos.thread.configmax_task_name_len" value="16"/>
       <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled"/>
@@ -392,10 +392,14 @@
   </raModuleConfiguration>
   <raPinConfiguration>
     <pincfg active="false" name="RZA3UL-SMARC-QSPI-XIP" selected="false" symbol="g_bsp_pin_cfg">
-      <configSetting altId="p6_0.usb1.usb1_vbusen" configurationId="p6_0"/>
-      <configSetting altId="p6_0.gpio_mode.gpio_mode_peripheral" configurationId="p6_0.gpio_mode"/>
-      <configSetting altId="p6_1.usb1.usb1_ovrcur" configurationId="p6_1"/>
-      <configSetting altId="p6_1.gpio_mode.gpio_mode_peripheral" configurationId="p6_1.gpio_mode"/>
+      <configSetting altId="p5_0.usb0.usb0_vbusen" configurationId="p5_0"/>
+      <configSetting altId="p5_0.gpio_mode.gpio_mode_peripheral" configurationId="p5_0.gpio_mode"/>
+      <configSetting altId="p5_2.usb0.usb0_ovrcur" configurationId="p5_2"/>
+      <configSetting altId="p5_2.gpio_mode.gpio_mode_peripheral" configurationId="p5_2.gpio_mode"/>
+      <configSetting altId="p5_3.usb0.usb0_otg_id" configurationId="p5_3"/>
+      <configSetting altId="p5_3.gpio_mode.gpio_mode_peripheral" configurationId="p5_3.gpio_mode"/>
+      <configSetting altId="p5_4.usb0.usb0_otg_exicen" configurationId="p5_4"/>
+      <configSetting altId="p5_4.gpio_mode.gpio_mode_peripheral" configurationId="p5_4.gpio_mode"/>
       <configSetting altId="p6_3.scif0.scif0_rxd" configurationId="p6_3"/>
       <configSetting altId="p6_3.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_3.gpio_drivecapacity"/>
       <configSetting altId="p6_3.gpio_mode.gpio_mode_peripheral" configurationId="p6_3.gpio_mode"/>
@@ -405,20 +409,28 @@
       <configSetting altId="scif0.mode.custom.free" configurationId="scif0.mode"/>
       <configSetting altId="scif0.scif0_rxd.p6_3" configurationId="scif0.scif0_rxd"/>
       <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
-      <configSetting altId="usb1.mode.custom.free" configurationId="usb1.mode"/>
-      <configSetting altId="usb1.usb1_dm.usb1_dm" configurationId="usb1.usb1_dm"/>
-      <configSetting altId="usb1.usb1_dp.usb1_dp" configurationId="usb1.usb1_dp"/>
-      <configSetting altId="usb1.usb1_ovrcur.p6_1" configurationId="usb1.usb1_ovrcur"/>
-      <configSetting altId="usb1.usb1_vbusen.p6_0" configurationId="usb1.usb1_vbusen"/>
-      <configSetting altId="usb1_dm.usb1.usb1_dm" configurationId="usb1_dm"/>
-      <configSetting altId="usb1_dp.usb1.usb1_dp" configurationId="usb1_dp"/>
+      <configSetting altId="usb0.mode.custom.free" configurationId="usb0.mode"/>
+      <configSetting altId="usb0.usb0_dm.usb0_dm" configurationId="usb0.usb0_dm"/>
+      <configSetting altId="usb0.usb0_dp.usb0_dp" configurationId="usb0.usb0_dp"/>
+      <configSetting altId="usb0.usb0_otg_exicen.p5_4" configurationId="usb0.usb0_otg_exicen"/>
+      <configSetting altId="usb0.usb0_otg_id.p5_3" configurationId="usb0.usb0_otg_id"/>
+      <configSetting altId="usb0.usb0_ovrcur.p5_2" configurationId="usb0.usb0_ovrcur"/>
+      <configSetting altId="usb0.usb0_vbusen.p5_0" configurationId="usb0.usb0_vbusen"/>
+      <configSetting altId="usb0.usb0_vbusin.usb0_vbusin" configurationId="usb0.usb0_vbusin"/>
+      <configSetting altId="usb0_dm.usb0.usb0_dm" configurationId="usb0_dm"/>
+      <configSetting altId="usb0_dp.usb0.usb0_dp" configurationId="usb0_dp"/>
+      <configSetting altId="usb0_vbusin.usb0.usb0_vbusin" configurationId="usb0_vbusin"/>
     </pincfg>
     <pincfg active="false" name="R9A07G063U02GBG.pincfg" selected="false" symbol=""/>
     <pincfg active="true" name="RZA3UL-SMARC-QSPI" selected="true" symbol="g_bsp_pin_cfg">
-      <configSetting altId="p6_0.usb1.usb1_vbusen" configurationId="p6_0"/>
-      <configSetting altId="p6_0.gpio_mode.gpio_mode_peripheral" configurationId="p6_0.gpio_mode"/>
-      <configSetting altId="p6_1.usb1.usb1_ovrcur" configurationId="p6_1"/>
-      <configSetting altId="p6_1.gpio_mode.gpio_mode_peripheral" configurationId="p6_1.gpio_mode"/>
+      <configSetting altId="p5_0.usb0.usb0_vbusen" configurationId="p5_0"/>
+      <configSetting altId="p5_0.gpio_mode.gpio_mode_peripheral" configurationId="p5_0.gpio_mode"/>
+      <configSetting altId="p5_2.usb0.usb0_ovrcur" configurationId="p5_2"/>
+      <configSetting altId="p5_2.gpio_mode.gpio_mode_peripheral" configurationId="p5_2.gpio_mode"/>
+      <configSetting altId="p5_3.usb0.usb0_otg_id" configurationId="p5_3"/>
+      <configSetting altId="p5_3.gpio_mode.gpio_mode_peripheral" configurationId="p5_3.gpio_mode"/>
+      <configSetting altId="p5_4.usb0.usb0_otg_exicen" configurationId="p5_4"/>
+      <configSetting altId="p5_4.gpio_mode.gpio_mode_peripheral" configurationId="p5_4.gpio_mode"/>
       <configSetting altId="p6_3.scif0.scif0_rxd" configurationId="p6_3"/>
       <configSetting altId="p6_3.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_3.gpio_drivecapacity"/>
       <configSetting altId="p6_3.gpio_mode.gpio_mode_peripheral" configurationId="p6_3.gpio_mode"/>
@@ -428,19 +440,27 @@
       <configSetting altId="scif0.mode.custom.free" configurationId="scif0.mode"/>
       <configSetting altId="scif0.scif0_rxd.p6_3" configurationId="scif0.scif0_rxd"/>
       <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
-      <configSetting altId="usb1.mode.custom.free" configurationId="usb1.mode"/>
-      <configSetting altId="usb1.usb1_dm.usb1_dm" configurationId="usb1.usb1_dm"/>
-      <configSetting altId="usb1.usb1_dp.usb1_dp" configurationId="usb1.usb1_dp"/>
-      <configSetting altId="usb1.usb1_ovrcur.p6_1" configurationId="usb1.usb1_ovrcur"/>
-      <configSetting altId="usb1.usb1_vbusen.p6_0" configurationId="usb1.usb1_vbusen"/>
-      <configSetting altId="usb1_dm.usb1.usb1_dm" configurationId="usb1_dm"/>
-      <configSetting altId="usb1_dp.usb1.usb1_dp" configurationId="usb1_dp"/>
+      <configSetting altId="usb0.mode.custom.free" configurationId="usb0.mode"/>
+      <configSetting altId="usb0.usb0_dm.usb0_dm" configurationId="usb0.usb0_dm"/>
+      <configSetting altId="usb0.usb0_dp.usb0_dp" configurationId="usb0.usb0_dp"/>
+      <configSetting altId="usb0.usb0_otg_exicen.p5_4" configurationId="usb0.usb0_otg_exicen"/>
+      <configSetting altId="usb0.usb0_otg_id.p5_3" configurationId="usb0.usb0_otg_id"/>
+      <configSetting altId="usb0.usb0_ovrcur.p5_2" configurationId="usb0.usb0_ovrcur"/>
+      <configSetting altId="usb0.usb0_vbusen.p5_0" configurationId="usb0.usb0_vbusen"/>
+      <configSetting altId="usb0.usb0_vbusin.usb0_vbusin" configurationId="usb0.usb0_vbusin"/>
+      <configSetting altId="usb0_dm.usb0.usb0_dm" configurationId="usb0_dm"/>
+      <configSetting altId="usb0_dp.usb0.usb0_dp" configurationId="usb0_dp"/>
+      <configSetting altId="usb0_vbusin.usb0.usb0_vbusin" configurationId="usb0_vbusin"/>
     </pincfg>
     <pincfg active="false" name="RZA3UL-SMARC-OCTAL-XIP" selected="false" symbol="g_bsp_pin_cfg">
-      <configSetting altId="p6_0.usb1.usb1_vbusen" configurationId="p6_0"/>
-      <configSetting altId="p6_0.gpio_mode.gpio_mode_peripheral" configurationId="p6_0.gpio_mode"/>
-      <configSetting altId="p6_1.usb1.usb1_ovrcur" configurationId="p6_1"/>
-      <configSetting altId="p6_1.gpio_mode.gpio_mode_peripheral" configurationId="p6_1.gpio_mode"/>
+      <configSetting altId="p5_0.usb0.usb0_vbusen" configurationId="p5_0"/>
+      <configSetting altId="p5_0.gpio_mode.gpio_mode_peripheral" configurationId="p5_0.gpio_mode"/>
+      <configSetting altId="p5_2.usb0.usb0_ovrcur" configurationId="p5_2"/>
+      <configSetting altId="p5_2.gpio_mode.gpio_mode_peripheral" configurationId="p5_2.gpio_mode"/>
+      <configSetting altId="p5_3.usb0.usb0_otg_id" configurationId="p5_3"/>
+      <configSetting altId="p5_3.gpio_mode.gpio_mode_peripheral" configurationId="p5_3.gpio_mode"/>
+      <configSetting altId="p5_4.usb0.usb0_otg_exicen" configurationId="p5_4"/>
+      <configSetting altId="p5_4.gpio_mode.gpio_mode_peripheral" configurationId="p5_4.gpio_mode"/>
       <configSetting altId="p6_3.scif0.scif0_rxd" configurationId="p6_3"/>
       <configSetting altId="p6_3.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_3.gpio_drivecapacity"/>
       <configSetting altId="p6_3.gpio_mode.gpio_mode_peripheral" configurationId="p6_3.gpio_mode"/>
@@ -450,13 +470,17 @@
       <configSetting altId="scif0.mode.custom.free" configurationId="scif0.mode"/>
       <configSetting altId="scif0.scif0_rxd.p6_3" configurationId="scif0.scif0_rxd"/>
       <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
-      <configSetting altId="usb1.mode.custom.free" configurationId="usb1.mode"/>
-      <configSetting altId="usb1.usb1_dm.usb1_dm" configurationId="usb1.usb1_dm"/>
-      <configSetting altId="usb1.usb1_dp.usb1_dp" configurationId="usb1.usb1_dp"/>
-      <configSetting altId="usb1.usb1_ovrcur.p6_1" configurationId="usb1.usb1_ovrcur"/>
-      <configSetting altId="usb1.usb1_vbusen.p6_0" configurationId="usb1.usb1_vbusen"/>
-      <configSetting altId="usb1_dm.usb1.usb1_dm" configurationId="usb1_dm"/>
-      <configSetting altId="usb1_dp.usb1.usb1_dp" configurationId="usb1_dp"/>
+      <configSetting altId="usb0.mode.custom.free" configurationId="usb0.mode"/>
+      <configSetting altId="usb0.usb0_dm.usb0_dm" configurationId="usb0.usb0_dm"/>
+      <configSetting altId="usb0.usb0_dp.usb0_dp" configurationId="usb0.usb0_dp"/>
+      <configSetting altId="usb0.usb0_otg_exicen.p5_4" configurationId="usb0.usb0_otg_exicen"/>
+      <configSetting altId="usb0.usb0_otg_id.p5_3" configurationId="usb0.usb0_otg_id"/>
+      <configSetting altId="usb0.usb0_ovrcur.p5_2" configurationId="usb0.usb0_ovrcur"/>
+      <configSetting altId="usb0.usb0_vbusen.p5_0" configurationId="usb0.usb0_vbusen"/>
+      <configSetting altId="usb0.usb0_vbusin.usb0_vbusin" configurationId="usb0.usb0_vbusin"/>
+      <configSetting altId="usb0_dm.usb0.usb0_dm" configurationId="usb0_dm"/>
+      <configSetting altId="usb0_dp.usb0.usb0_dp" configurationId="usb0_dp"/>
+      <configSetting altId="usb0_vbusin.usb0.usb0_vbusin" configurationId="usb0_vbusin"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

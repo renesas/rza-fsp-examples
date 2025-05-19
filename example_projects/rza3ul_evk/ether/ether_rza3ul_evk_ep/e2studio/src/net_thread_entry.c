@@ -2,10 +2,9 @@
  * File Name    : net_thread_entry.c
  * Description  : This file contains the User Application code for the Ethernet + TCP/IP
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -21,7 +20,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 /***********************************************************************************************************************
  * Includes
@@ -35,6 +34,7 @@
 #include "usr_app.h"
 #include "r_gether.h"
 #include "common_data.h"
+#define MODULE_NAME         "Ethernet using FreeRTOS+TCP"
 
 /* Domain for the DNS Host lookup is used in this Example Project.
  * The project can be built with different *gp_domain_name to validate the DNS client
@@ -61,16 +61,13 @@ static uint8_t ucDNSServerAddress[4] = {RESET_VALUE};
 
 #else
 
-/* Static IP configuration, when DHCP mode is not used for the Example Project.
- * This needs to be populated by the user according to the Network Settings of your LAN.
- * This sample address taken from the LAN where it is tested. This is different for different LAN.
- * get the Address using the PC IPconfig details.
- */
-static uint8_t ucMACAddress[6]       = {0x00, 0x11, 0x33, 0x55, 0x77, 0x99};
-static uint8_t ucIPAddress[4]        = {192, 168, 9, 112};
-static uint8_t ucNetMask[4]          = {255, 255, 255, 0};
-static uint8_t ucGatewayAddress[4]   = {192, 168, 9, 1};
-static uint8_t ucDNSServerAddress[4] = {8, 8, 8, 8};
+/* Static IP mode: Configuration is handled via FSP settings, so variables are unused */
+static uint8_t ucMACAddress[6];
+static uint8_t ucIPAddress[4];
+static uint8_t ucNetMask[4];
+static uint8_t ucGatewayAddress[4];
+static uint8_t ucDNSServerAddress[4];
+
 #endif
 
 
@@ -84,7 +81,8 @@ uint32_t        usr_ping_count                  = RESET_VALUE;
 ping_data_t     ping_data                       = {RESET_VALUE, RESET_VALUE, RESET_VALUE};
 uint32_t        timer_counter                   = RESET_VALUE;
 ping_status_t   ping_status[USR_PING_COUNT + 1] = {RESET_VALUE};
-
+static NetworkInterface_t xInterfaces;
+void vApplicationIPNetworkEventHook( eIPCallbackEvent_t eNetworkEvent );
 static char const * const link_status[] = {
  "10Mbps Half Duplex\r\n"
 ,"10Mbps Full Duplex\r\n"
@@ -203,10 +201,17 @@ void net_thread_entry (void * pvParameters)
     /* Open UART Driver */
     g_uart0.p_api->open(g_uart0.p_ctrl, g_uart0.p_cfg);
 
+    extern void* __freertos_plus_tcp_array_start;
+    network_interface_instance_t** p_network_instance_list;
+    p_network_instance_list = (network_interface_instance_t**)&__freertos_plus_tcp_array_start;
     /* Copy GUI settings to application */
-    memcpy(ucMACAddress, gp_freertos_ether->p_cfg->p_mac_address, sizeof(ucMACAddress));
+    memcpy(ucMACAddress, p_network_instance_list[0]->pxEther->p_cfg->p_mac_address, sizeof(ucMACAddress));
+    memcpy(ucIPAddress, p_network_instance_list[0]->ucIpv4, sizeof(ucIPAddress));
+    memcpy(ucNetMask, p_network_instance_list[0]->ucMask, sizeof(ucNetMask));
+    memcpy(ucGatewayAddress, p_network_instance_list[0]->ucGateway, sizeof(ucGatewayAddress));
+    memcpy(ucDNSServerAddress, p_network_instance_list[0]->ucDns, sizeof(ucDNSServerAddress));
 
-    /* Example Project information printed on the RTT */
+    /* Example Project information printed on the Terminal Emulator */
     APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
     /* Prints the Ethernet Configuration prior to the IP Init*/
@@ -214,12 +219,13 @@ void net_thread_entry (void * pvParameters)
     print_ipconfig();
 
     /* FreeRTOS IP Initialization: This init initializes the IP stack  */
-    status = FreeRTOS_IPInit(ucIPAddress, ucNetMask, ucGatewayAddress, ucDNSServerAddress, ucMACAddress);
+    pxFillInterfaceDescriptor( 0, &( xInterfaces ) );
+    status = FreeRTOS_IPInit_Multi();
 
     if (pdFALSE == status)
     {
         APP_ERR_PRINT("FreeRTOS_IPInit Failed");
-        APP_ERR_TRAP(status);
+        APP_ERR_TRAP((uint32_t)status);
     }
 
     APP_PRINT(ETH_POSTINIT);
@@ -259,7 +265,7 @@ void net_thread_entry (void * pvParameters)
                 print_ipconfig();
 
                 /*DNS lookup for the Domain name requested. This is Synchronous Activity */
-                dnsQuerryFunc(gp_domain_name);
+                dnsQuerryFunc((char *)gp_domain_name);
             }
 
             if (!(PRINT_NWK_USR_MSG_DISABLE & usr_print_ability))
@@ -489,7 +495,7 @@ uint32_t average_time (ping_status_t pings_status[])
 }
 
 /*******************************************************************************************************************//**
- * @brief      Prints the Ping response on to the RTT console
+ * @brief      Prints the Ping response on to the Terminal Emulator console
  * @param[in]  void
  * @retval     None
  **********************************************************************************************************************/
@@ -509,7 +515,7 @@ void print_pingResult (void)
 }
 
 /*******************************************************************************************************************//**
- * @brief      Creates and prints the the IP configuration to display on the RTT console
+ * @brief      Creates and prints the the IP configuration to display on the Terminal Emulator console
  * @param[in]  void
  * @retval     None
  **********************************************************************************************************************/
@@ -619,8 +625,12 @@ uint32_t isNetworkUp (void)
     }
 #endif
 
+    extern void* __freertos_plus_tcp_array_start;
+    network_interface_instance_t** p_network_instance_list;
+    p_network_instance_list = (network_interface_instance_t**)&__freertos_plus_tcp_array_start;
+
     networkUp       = FreeRTOS_IsNetworkUp();
-    eth_link_status = R_GETHER_LinkProcess(gp_freertos_ether->p_ctrl);
+    eth_link_status = p_network_instance_list[0]->pxEther->p_api->linkProcess(p_network_instance_list[0]->pxEther->p_ctrl);
 
     if ((FSP_SUCCESS == eth_link_status) && (pdTRUE == networkUp))
     {

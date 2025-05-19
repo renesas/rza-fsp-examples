@@ -21,18 +21,17 @@
     <stringAttribute key="com.renesas.cdt.core.secondGDBExe" value="green_dsp-elf-gdb"/>
     <booleanAttribute key="com.renesas.cdt.core.secondGDBSupport" value="false"/>
     <intAttribute key="com.renesas.cdt.core.secondGdbPortNumber" value="61237"/>
-    <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R9A07G063U02GBG -uConnectionTimeout= 30 -uSelect= &quot;USB&quot; -uJLinkSetting= &quot;${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink&quot; -uJLinkLog= &quot;${workspace_loc:/${ProjName}}/JLinkLog.log&quot; -uLowPower= 0 -uInteface= &quot;SWD&quot; -uIfSpeed= &quot;15000&quot; -uResetBeginConnection= 1 -uNoReset= 1 -uResetPreRun= 1 -uIdCodeBytes=  &quot;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&quot; -uReleaseCM3= 0 -uDisconnectionMode= &quot;2&quot; -uSWOcoreClock= &quot;0&quot; -uresetOnReload= 1 -n &quot;0&quot; -uFlashBp= 1 -uSimulation= 0 -uflashMemoryType= &quot;SerialFlash&quot; -uflashBusType= &quot;SPIBSC&quot; -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uProgReWriteIRom= 0 -uResetBehavior= &quot;Reset&quot;"/>
+    <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R9A07G063U02GBG -uConnectionTimeout= 30 -uSelect= &quot;USB&quot; -uJLinkSetting= &quot;${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink&quot; -uJLinkLog= &quot;${workspace_loc:/${ProjName}}/JLinkLog.log&quot; -uLowPower= 0 -uInteface= &quot;SWD&quot; -uIfSpeed= &quot;15000&quot; -uResetBeginConnection= 1 -uNoReset= 1 -uIdCodeBytes=  &quot;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&quot; -uReleaseCM3= 0 -uDisconnectionMode= &quot;2&quot; -uSWOcoreClock= &quot;0&quot; -uresetOnReload= 1 -n &quot;0&quot; -uFlashBp= 1 -uSimulation= 0 -uflashMemoryType= &quot;SerialFlash&quot; -uflashBusType= &quot;SPIBSC&quot; -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uAllowCachingFlash= 0 -uResetBehavior= &quot;Reset&quot;"/>
     <booleanAttribute key="com.renesas.cdt.core.setResume" value="true"/>
     <booleanAttribute key="com.renesas.cdt.core.startServer" value="true"/>
     <stringAttribute key="com.renesas.cdt.core.targetDevice" value="R9A07G063U02GBG"/>
     <booleanAttribute key="com.renesas.cdt.core.useRemoteTarget" value="true"/>
-    <stringAttribute key="com.renesas.cdt.debug.ioview.dsf.registerSelection0" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;selectedRegisterList ioFilePath=&quot;C:\Users\a5136407\.eclipse\com.renesas.platform_988962760\DebugComp\RZ\IoFiles\R9A07G063U.sfrx&quot;/&gt;&#13;&#10;"/>
     <stringAttribute key="com.renesas.cdt.launch.dsf.IO_MAP" value="${support_area_loc}"/>
     <booleanAttribute key="com.renesas.cdt.launch.dsf.USE_DEFAULT_IO_MAP" value="true"/>
     <listAttribute key="com.renesas.cdt.launch.dsf.downloadImages">
         <listEntry value="|true|false|true||true|No core|INTERNAL_MEMORY||false"/>
-        <listEntry value="${workspace_loc:\ether_rza3ul_evk_ep\Debug\ether_rza3ul_evk_ep.srec}|true|true|true|0|true|No core|INTERNAL_MEMORY||false"/>
         <listEntry value="${workspace_loc:\ether_rza3ul_evk_ep\ipl\rza3ul_smarc_qspi_ipl.srec}|true|true|true|0|true|No core|INTERNAL_MEMORY||false"/>
+        <listEntry value="${workspace_loc:\ether_rza3ul_evk_ep\Debug\ether_rza3ul_evk_ep.srec}|true|true|true|0|true|No core|INTERNAL_MEMORY||false"/>
     </listAttribute>
     <booleanAttribute key="com.renesas.cdt.launch.dsf.downloadImagesUpgradedV30" value="true"/>
     <listAttribute key="com.renesas.cdt.launch.dsf.externalFlashDestinationAddresses"/>
@@ -102,7 +101,7 @@
     <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doReset" value="false"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value="C:\Personal\Task\Example\RZA3UL\git\ether\rza-fsp-examples\example_projects\rza3ul_evk\ether\ether_rza3ul_evk_ep\e2studio\Debug\ether_rza3ul_evk_ep.elf"/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value="set breakpoint enable-memread 0"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="false"/>
@@ -111,9 +110,9 @@
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.runCommands" value=""/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setPcRegister" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setResume" value="false"/>
-    <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setStopAt" value="false"/>
+    <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setStopAt" value="true"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.stopAt" value="main"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value="C:\Personal\Task\Example\RZA3UL\git\ether\rza-fsp-examples\example_projects\rza3ul_evk\ether\ether_rza3ul_evk_ep\e2studio\Debug\ether_rza3ul_evk_ep.elf"/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsOffset" value=""/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForImage" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForSymbols" value="false"/>
@@ -122,7 +121,7 @@
     <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="aarch64-elf-gdb"/>
     <booleanAttribute key="org.eclipse.cdt.dsf.gdb.NON_STOP" value="true"/>
     <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
-    <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="false"/>
+    <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
     <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="main"/>
     <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/ether_rza3ul_evk_ep.elf"/>
     <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="ether_rza3ul_evk_ep"/>

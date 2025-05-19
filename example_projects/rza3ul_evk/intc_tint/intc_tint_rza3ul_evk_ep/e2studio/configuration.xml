@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="9">
+<raConfiguration version="10">
   <generalSettings>
     <option key="#Board#" value="board.rza3ul_smarc_qspi"/>
     <option key="CPU" value="RZA3UL"/>
@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R9A07G063U02GBG"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R9A07G063U02GBG.pincfg"/>
-    <option key="#FSPVersion#" value="3.0.0"/>
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi##"/>
+    <option key="#FSPVersion#" value="3.5.0"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi##|Renesas##BSP##Board##rza3ul_smarc_octal_xip##|Renesas##BSP##Board##rza3ul_smarc_qspi_xip##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-a-profile-aarch64"/>
-    <option key="#ToolchainVersion#" value="10.3.1.20210621"/>
+    <option key="#ToolchainVersion#" value="13.2.1.20231009"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.rza3ul.R9A07G063U02GBG">
@@ -42,8 +42,8 @@
     </config>
     <config id="config.bsp.rz">
       <property id="config.bsp.common.secure_stack" value="0x200"/>
-      <property id="config.bsp.common.main" value="0x200"/>
-      <property id="config.bsp.common.heap" value="0"/>
+      <property id="config.bsp.common.main" value="0x2000"/>
+      <property id="config.bsp.common.heap" value="0x2000"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -129,41 +129,45 @@
     <node id="board.clock.hpclk.display" option="board.clock.hpclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.5.0">
       <description>Board support package for R9A07G063U02GBG</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
       <description>Board support package for RZA3UL</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
       <description>Board support package for RZ/A3UL (RZ/A3UL) - FSP Data</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.0.0">
-      <description>RZ/A3UL Evaluation Board Kit QSPI Edition (Exec with DDR SDRAM) Board Support Files</description>
-      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.0.0.pack</originalPack>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.5.0">
+      <description>RZA Configuration Template File</description>
+      <originalPack>Renesas.RZA_config.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_intc_tint" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_intc_tint" variant="" vendor="Renesas" version="3.5.0">
       <description>External INT (TINT)</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.5.0">
       <description>Memory Management Unit</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.5.0">
       <description>SCIF UART</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.5.0">
+      <description>RZ/A3UL Evaluation Board Kit QSPI Edition (Exec with DDR SDRAM) Board Support Files</description>
+      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -180,7 +184,7 @@
       <property id="module.driver.external_irq.name" value="g_external_tint"/>
       <property id="module.driver.external_irq.channel" value="24"/>
       <property id="module.driver.external_irq.gpioint" value="module.driver.tint.gpioint24"/>
-      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_rising"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_tint.trigger.trig_rising"/>
       <property id="module.driver.external_irq.p_callback" value="tint_ep_callback"/>
       <property id="module.driver.external_irq.ipl" value="12"/>
     </module>
@@ -243,8 +247,17 @@
       <configSetting altId="p5_1.input" configurationId="p5_1"/>
       <configSetting altId="p5_1.gpio_mode.gpio_mode_in" configurationId="p5_1.gpio_mode"/>
       <configSetting altId="p5_1.tinten.tinten.enable" configurationId="p5_1.tinten"/>
+      <configSetting altId="p6_3.scif0.scif0_rxd" configurationId="p6_3"/>
+      <configSetting altId="p6_3.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_3.gpio_drivecapacity"/>
+      <configSetting altId="p6_3.gpio_mode.gpio_mode_peripheral" configurationId="p6_3.gpio_mode"/>
+      <configSetting altId="p6_4.scif0.scif0_txd" configurationId="p6_4"/>
+      <configSetting altId="p6_4.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_4.gpio_drivecapacity"/>
+      <configSetting altId="p6_4.gpio_mode.gpio_mode_peripheral" configurationId="p6_4.gpio_mode"/>
+      <configSetting altId="scif0.mode.custom.free" configurationId="scif0.mode"/>
+      <configSetting altId="scif0.scif0_rxd.p6_3" configurationId="scif0.scif0_rxd"/>
+      <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
     </pincfg>
-    <pincfg active="false" name="RZA3UL-SMARC-QSPI-XIP" selected="false" symbol="">
+    <pincfg active="false" name="RZA3UL-SMARC-QSPI-XIP" selected="false" symbol="g_bsp_pin_cfg">
       <configSetting altId="p18_4.output.toinput.high" configurationId="p18_4"/>
       <configSetting altId="p18_4.gpio_mode.gpio_mode_out.toinput.high" configurationId="p18_4.gpio_mode"/>
       <configSetting altId="p1_0.output.toinput.high" configurationId="p1_0"/>
@@ -256,8 +269,17 @@
       <configSetting altId="p5_1.input" configurationId="p5_1"/>
       <configSetting altId="p5_1.gpio_mode.gpio_mode_in" configurationId="p5_1.gpio_mode"/>
       <configSetting altId="p5_1.tinten.tinten.enable" configurationId="p5_1.tinten"/>
+      <configSetting altId="p6_3.scif0.scif0_rxd" configurationId="p6_3"/>
+      <configSetting altId="p6_3.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_3.gpio_drivecapacity"/>
+      <configSetting altId="p6_3.gpio_mode.gpio_mode_peripheral" configurationId="p6_3.gpio_mode"/>
+      <configSetting altId="p6_4.scif0.scif0_txd" configurationId="p6_4"/>
+      <configSetting altId="p6_4.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_4.gpio_drivecapacity"/>
+      <configSetting altId="p6_4.gpio_mode.gpio_mode_peripheral" configurationId="p6_4.gpio_mode"/>
+      <configSetting altId="scif0.mode.custom.free" configurationId="scif0.mode"/>
+      <configSetting altId="scif0.scif0_rxd.p6_3" configurationId="scif0.scif0_rxd"/>
+      <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
     </pincfg>
-    <pincfg active="false" name="RZA3UL-SMARC-OCTAL-XIP" selected="false" symbol="">
+    <pincfg active="false" name="RZA3UL-SMARC-OCTAL-XIP" selected="false" symbol="g_bsp_pin_cfg">
       <configSetting altId="p18_4.output.toinput.high" configurationId="p18_4"/>
       <configSetting altId="p18_4.gpio_mode.gpio_mode_out.toinput.high" configurationId="p18_4.gpio_mode"/>
       <configSetting altId="p1_0.output.toinput.high" configurationId="p1_0"/>
@@ -269,6 +291,15 @@
       <configSetting altId="p5_1.input" configurationId="p5_1"/>
       <configSetting altId="p5_1.gpio_mode.gpio_mode_in" configurationId="p5_1.gpio_mode"/>
       <configSetting altId="p5_1.tinten.tinten.enable" configurationId="p5_1.tinten"/>
+      <configSetting altId="p6_3.scif0.scif0_rxd" configurationId="p6_3"/>
+      <configSetting altId="p6_3.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_3.gpio_drivecapacity"/>
+      <configSetting altId="p6_3.gpio_mode.gpio_mode_peripheral" configurationId="p6_3.gpio_mode"/>
+      <configSetting altId="p6_4.scif0.scif0_txd" configurationId="p6_4"/>
+      <configSetting altId="p6_4.gpio_speed.gpio_speed_ultrahigh" configurationId="p6_4.gpio_drivecapacity"/>
+      <configSetting altId="p6_4.gpio_mode.gpio_mode_peripheral" configurationId="p6_4.gpio_mode"/>
+      <configSetting altId="scif0.mode.custom.free" configurationId="scif0.mode"/>
+      <configSetting altId="scif0.scif0_rxd.p6_3" configurationId="scif0.scif0_rxd"/>
+      <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

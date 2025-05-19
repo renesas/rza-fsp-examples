@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -16,13 +16,13 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 1. Project Overview:
 	The example projects demonstrates Message Queue and Semaphore between tasks and interrupt. Message Queue is 
 	demonstrated between Tasks and between Task and interrupt. GTM timer periodically generates interrupt at 1000msec. 
 	For first few seconds, messages are shared between Sender and Receiver Tasks and GTM ISR0. Receiver task pends on 
-	Message Queue, receives and displays message received on RTTViewer periodically at 500msec. For next few seconds, 
+	Message Queue, receives and displays message received on TeraTerm periodically at 500msec. For next few seconds, 
 	Semaphore Task waits for sempahore until it is released by GTM ISR1. GTM ISR1 releases semaphore periodically 
 	at 1000msec. All the tasks run with equal priority level.
 

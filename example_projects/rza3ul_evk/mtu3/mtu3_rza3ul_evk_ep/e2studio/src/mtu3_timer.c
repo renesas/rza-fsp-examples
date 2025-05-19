@@ -2,9 +2,9 @@
  * File Name    : mtu3_timer.c
  * Description  : Contains function definition.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -20,7 +20,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 #include "common_utils.h"
 #include "mtu3_timer.h"
@@ -38,7 +38,6 @@ uint8_t g_timer_open_state        = RESET_VALUE;
 bool volatile g_set_duty_cycle_0  = false;
 
 uint32_t g_current_period_counts  = RESET_VALUE;
-
 
 /*****************************************************************************************************************
  * @brief       Initialize MTU3 timer.
@@ -135,7 +134,7 @@ fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
             duty_cycle_counts =(uint32_t) ((g_current_period_counts * duty_cycle_percent) / MTU3_MAX_PERCENT);
         }
 
-        /* Duty Cycle Set API set the desired intensity on the on-board LED */
+        /* Duty Cycle Set API set the desired intensity on the PMOD LED */
         err = R_MTU3_DutyCycleSet(&g_timer_pwm_ctrl, duty_cycle_counts, 0);
         if(FSP_SUCCESS != err)
         {
@@ -222,7 +221,7 @@ void user_mtu3_one_shot_callback(timer_callback_args_t * p_args)
 {
     if(NULL != p_args)
     {
-        if (TIMER_EVENT_CAPTURE_A  == p_args->event)
+        if (TIMER_EVENT_COMPARE_A  == p_args->event)
         {
             /* Set boolean flag on one-shot mode timer expired. */
             g_one_shot_expired = true;
@@ -239,7 +238,7 @@ void user_mtu3_capture_b_callback(timer_callback_args_t * p_args)
 {
     if(NULL != p_args)
     {
-        if (TIMER_EVENT_CAPTURE_B  == p_args->event)
+        if (TIMER_EVENT_COMPARE_B  == p_args->event)
         {
             if (true == g_set_duty_cycle_0)
             {

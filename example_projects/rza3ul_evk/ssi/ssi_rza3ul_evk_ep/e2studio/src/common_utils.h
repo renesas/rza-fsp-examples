@@ -2,9 +2,9 @@
  * File Name    : common_utils.h
  * Description  : Contains macros, data structures and functions used  common to the EP
  ***********************************************************************************************************************/
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -20,12 +20,12 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 /***********************************************************************************************************************
  * Includes
  **********************************************************************************************************************/
-
+ 
 #ifndef COMMON_UTILS_H_
 #define COMMON_UTILS_H_
 
@@ -35,28 +35,29 @@
 #include <stdlib.h>
 #include "hal_data.h"
 
-#define BIT_SHIFT_8             (8u)
-#define SIZE_64                 (64u)
-#define LVL_ERR                 (1u)        /* error conditions   */
+extern void app_read(unsigned char* p_data);
+extern int app_check_data();
+
+#define SIZE_64      (64u)
+#define LVL_ERR      (1u)       /* error conditions   */
 #define RESET_VALUE             (0x00)
-#define MAX_TIME                (0xffff)    /* Max time value for time out   */
-#define EP_VERSION              "3.0"
-#define MODULE_NAME             "r_ssi"
-#define BANNER_INFO             "******************************************************************\r\n"\
-                                "*   Renesas FSP Example Project for "MODULE_NAME" Module                 *\r\n"\
-                                "*   Example Project Version %s                                  *\r\n"\
-                                "*   Flex Software Pack Version  %d.%d.%d                            *\r\n"\
-                                "******************************************************************\r\n"\
-                                "Refer to readme.txt file for more details on Example Project and \r\n" \
-                                "\r\nRZA FSP Documentation for more information about "MODULE_NAME" driver\r\n"
+
+#define EP_VERSION              "3.5.0"
+#define BANNER_INFO             "\r\n********************************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                               *"\
+                                "\r\n*   Example Project Version %s                                              *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                                          *"\
+                                "\r\n********************************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
 
 #define APP_PRINT(fn_, ...)      (printf((fn_), ##__VA_ARGS__))
 
 #define APP_ERR_PRINT(fn_, ...)  if(LVL_ERR)\
-        printf("[ERR] In Function: %s\r",(fn_),##__VA_ARGS__);
+        printf("[ERR] In Function: %s",(fn_),##__VA_ARGS__);
 
 #define APP_ERR_TRAP(err)        if(err) {\
-        printf("Returned Error Code: 0x%x  \r\n\r\n", err);\
+        printf("\r\nReturned Error Code: 0x%x  \r\n", err);\
         __asm__ volatile("brk 0x0\n");} /* trap upon the error  */
 
 #define APP_READ(read_data)      app_read(read_data)

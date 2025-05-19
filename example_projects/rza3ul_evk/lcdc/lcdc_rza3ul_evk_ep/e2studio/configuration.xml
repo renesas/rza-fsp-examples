@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="9">
+<raConfiguration version="10">
   <generalSettings>
     <option key="#Board#" value="board.rza3ul_smarc_qspi"/>
     <option key="CPU" value="RZA3UL"/>
@@ -9,8 +9,8 @@
     <option key="#DeviceCommand#" value="R9A07G063U02GBG"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R9A07G063U02GBG.pincfg"/>
-    <option key="#FSPVersion#" value="3.0.0"/>
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi_xip##|Renesas##BSP##Board##rza3ul_smarc_qspi##|Renesas##BSP##Board##rza3ul_smarc_octal_xip##"/>
+    <option key="#FSPVersion#" value="3.5.0"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-a-profile-aarch64"/>
     <option key="#ToolchainVersion#" value="13.2.1.20231009"/>
   </generalSettings>
@@ -42,8 +42,8 @@
     </config>
     <config id="config.bsp.rz">
       <property id="config.bsp.common.secure_stack" value="0x200"/>
-      <property id="config.bsp.common.main" value="0x200"/>
-      <property id="config.bsp.common.heap" value="0"/>
+      <property id="config.bsp.common.main" value="0x2000"/>
+      <property id="config.bsp.common.heap" value="0x2000"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -129,45 +129,45 @@
     <node id="board.clock.hpclk.display" option="board.clock.hpclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.5.0">
       <description>Board support package for R9A07G063U02GBG</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
       <description>Board support package for RZA3UL</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
       <description>Board support package for RZ/A3UL (RZ/A3UL) - FSP Data</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.5.0">
       <description>RZA Configuration Template File</description>
-      <originalPack>Renesas.RZA_config.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_config.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.0.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.0.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lcdc" variant="" vendor="Renesas" version="3.0.0">
-      <description>LCD Controller</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.0.0">
-      <description>Memory Management Unit</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.0.0">
-      <description>SCIF UART</description>
-      <originalPack>Renesas.RZA.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.5.0">
       <description>RZ/A3UL Evaluation Board Kit QSPI Edition (Exec with DDR SDRAM) Board Support Files</description>
-      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lcdc" variant="" vendor="Renesas" version="3.5.0">
+      <description>LCD Controller</description>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.5.0">
+      <description>Memory Management Unit</description>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.5.0">
+      <description>SCIF UART</description>
+      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -180,7 +180,7 @@
     <module id="module.driver.mmu_on_mmu.0">
       <property id="module.driver.mmu.name" value="g_mmu"/>
     </module>
-    <module id="module.driver.display_on_lcdc.1175506427">
+    <module id="module.driver.display_on_lcdc.331052117">
       <property id="module.driver.display.name" value="g_display"/>
       <property id="module.driver.display.callback" value="disp_buf_change"/>
       <property id="module.driver.display.frame_end_ipl" value="24"/>
@@ -244,7 +244,7 @@
       <property id="module.driver.display.colorkeying.input1.dst.g" value="0"/>
       <property id="module.driver.display.colorkeying.input1.dst.b" value="0"/>
     </module>
-    <module id="module.driver.uart_on_scif_uart.1363492321">
+    <module id="module.driver.uart_on_scif_uart.425486220">
       <property id="module.driver.uart.name" value="g_uart0"/>
       <property id="module.driver.uart.channel" value="0"/>
       <property id="module.driver.uart.data_bits" value="module.driver.uart.data_bits.data_bits_8"/>
@@ -271,8 +271,8 @@
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.driver.mmu_on_mmu.0"/>
-      <stack module="module.driver.display_on_lcdc.1175506427"/>
-      <stack module="module.driver.uart_on_scif_uart.1363492321"/>
+      <stack module="module.driver.display_on_lcdc.331052117"/>
+      <stack module="module.driver.uart_on_scif_uart.425486220"/>
     </context>
     <config id="config.driver.lcdc">
       <property id="config.driver.lcdc.param_checking_enable" value="config.driver.lcdc.param_checking_enable.bsp"/>
@@ -290,7 +290,7 @@
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
-    <pincfg active="false" name="RZA3UL-SMARC-QSPI-XIP" selected="false" symbol="g_bsp_pin_cfg">
+    <pincfg active="true" name="RZA3UL-SMARC-QSPI" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="display.disp_clk.p11_3" configurationId="display.disp_clk"/>
       <configSetting altId="display.disp_data0.p11_2" configurationId="display.disp_data0"/>
       <configSetting altId="display.disp_data1.p13_1" configurationId="display.disp_data1"/>
@@ -415,7 +415,7 @@
       <configSetting altId="scif0.scif0_txd.p6_4" configurationId="scif0.scif0_txd"/>
     </pincfg>
     <pincfg active="false" name="R9A07G063U02GBG.pincfg" selected="false" symbol=""/>
-    <pincfg active="true" name="RZA3UL-SMARC-QSPI" selected="true" symbol="g_bsp_pin_cfg">
+    <pincfg active="false" name="RZA3UL-SMARC-QSPI-XIP" selected="false" symbol="g_bsp_pin_cfg">
       <configSetting altId="display.disp_clk.p11_3" configurationId="display.disp_clk"/>
       <configSetting altId="display.disp_data0.p11_2" configurationId="display.disp_data0"/>
       <configSetting altId="display.disp_data1.p13_1" configurationId="display.disp_data1"/>

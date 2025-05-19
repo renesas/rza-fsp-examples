@@ -14,10 +14,10 @@ FSP Configuration
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     
-  RZ/A3UL Common
+  RZ/A FSP Common
     Secure stack size (bytes): 0x200
-    Main stack size (bytes): 0x200
-    Heap size (bytes): 0
+    Main stack size (bytes): 0x2000
+    Heap size (bytes): 0x2000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -63,8 +63,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -425,8 +425,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -787,8 +787,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -1149,8 +1149,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 

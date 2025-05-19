@@ -14,10 +14,10 @@ FSP Configuration
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     
-  RZ/A3UL Common
+  RZ/A FSP Common
     Secure stack size (bytes): 0x200
-    Main stack size (bytes): 0x200
-    Heap size (bytes): 0x10000
+    Main stack size (bytes): 0x2000
+    Heap size (bytes): 0x2000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -63,8 +63,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -425,8 +425,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -787,8 +787,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -1149,8 +1149,8 @@ FSP Configuration
       CSI_CLK- AE11 - - - - - - - - - None - - 
       CSI_DATA0+ AD12 - - - - - - - - - None - - 
       CSI_DATA0- AE12 - - - - - - - - - None - - 
+      CSI_DATA1+ AD10 - - - - - - - - - None - - 
       CSI_DATA1- AE10 - - - - - - - - - None - - 
-      CSI_DATA1- AD10 - - - - - - - - - None - - 
       CSI_DATA2+ AD13 - - - - - - - - - None - - 
       CSI_DATA2- AE13 - - - - - - - - - None - - 
       CSI_DATA3+ AD9 - - - - - - - - - None - - 
@@ -1534,6 +1534,7 @@ FSP Configuration
       Name: g_i2c_master
       Channel: 1
       Rate: Fast-mode
+      Custom Rate (bps): 0
       Rise Time (ns): 120
       Fall Time (ns): 120
       Duty Cycle (%): 50
@@ -1546,54 +1547,54 @@ FSP Configuration
       Interrupt Priority Level: 12
       
       Instance "g_transfer0 Transfer Driver on r_dmac I2C_INTRIIC_TI1"
-        Name: g_transfer0
-        Channel: 0
-        Mode: Normal
-        Source Data Size: 1 Byte
-        Destination Data Size: 1 Byte
-        Destination Address Mode: Fixed
-        Source Address Mode: Incremented
-        Activation Source: I2C_INTRIIC_TI1
-        DMA Activation Request Source Select: Requested by a transfer source module
-        DMAC Mode: Register Mode
-        Callback: g_i2c_master_tx_transfer_callback
-        Context: NULL
-        Transfer End Interrupt Enable: Enabled
-        Transfer End Interrupt Priority: 24
-        Transfer Interval: 0
-        Channel Priority: Fixed
-        Transfer Continuation: DMA transfer only once
-        Setting 1 Destination Address: NULL
-        Setting 1 Source Address: NULL
-        Setting 1 Total Number of Transfer Bytes: 0
-        Setting 2 Destination Address: NULL
-        Setting 2 Source Address: NULL
-        Setting 2 Total Number of Transfer Bytes: 1
+        General: Name: g_transfer0
+        General: Channel: 0
+        Register Mode: Mode: Normal
+        Register Mode: Source Data Size: 1 Byte
+        Register Mode: Destination Data Size: 1 Byte
+        Register Mode: Destination Address Mode: Fixed
+        Register Mode: Source Address Mode: Incremented
+        General: Activation Source: I2C_INTRIIC_TI1
+        Register Mode: DMA Activation Request Source Select: Requested by a transfer source module
+        General: DMAC Mode: Register Mode
+        Link Mode: Descriptor: NULL
+        Interrupts: Callback: g_i2c_master_tx_transfer_callback
+        Interrupts: Transfer End Interrupt Enable: Enabled
+        Interrupts: Transfer End Interrupt Priority: 24
+        Register Mode: Transfer Interval: 0
+        General: Channel Priority: Fixed
+        Register Mode: Transfer Continuation: DMA transfer only once
+        Register Mode: Setting 1 Destination Address: NULL
+        Register Mode: Setting 1 Source Address: NULL
+        Register Mode: Setting 1 Total Number of Transfer Bytes: 0
+        Register Mode: Setting 2 Destination Address: NULL
+        Register Mode: Setting 2 Source Address: NULL
+        Register Mode: Setting 2 Total Number of Transfer Bytes: 1
         
       Instance "g_transfer1 Transfer Driver on r_dmac I2C_INTRIIC_RI1"
-        Name: g_transfer1
-        Channel: 1
-        Mode: Normal
-        Source Data Size: 1 Byte
-        Destination Data Size: 1 Byte
-        Destination Address Mode: Incremented
-        Source Address Mode: Fixed
-        Activation Source: I2C_INTRIIC_RI1
-        DMA Activation Request Source Select: Requested by a transfer destination module
-        DMAC Mode: Register Mode
-        Callback: g_i2c_master_rx_transfer_callback
-        Context: NULL
-        Transfer End Interrupt Enable: Enabled
-        Transfer End Interrupt Priority: 24
-        Transfer Interval: 0
-        Channel Priority: Fixed
-        Transfer Continuation: DMA transfer only once
-        Setting 1 Destination Address: NULL
-        Setting 1 Source Address: NULL
-        Setting 1 Total Number of Transfer Bytes: 0
-        Setting 2 Destination Address: NULL
-        Setting 2 Source Address: NULL
-        Setting 2 Total Number of Transfer Bytes: 1
+        General: Name: g_transfer1
+        General: Channel: 1
+        Register Mode: Mode: Normal
+        Register Mode: Source Data Size: 1 Byte
+        Register Mode: Destination Data Size: 1 Byte
+        Register Mode: Destination Address Mode: Incremented
+        Register Mode: Source Address Mode: Fixed
+        General: Activation Source: I2C_INTRIIC_RI1
+        Register Mode: DMA Activation Request Source Select: Requested by a transfer source module
+        General: DMAC Mode: Register Mode
+        Link Mode: Descriptor: NULL
+        Interrupts: Callback: g_i2c_master_rx_transfer_callback
+        Interrupts: Transfer End Interrupt Enable: Enabled
+        Interrupts: Transfer End Interrupt Priority: 24
+        Register Mode: Transfer Interval: 0
+        General: Channel Priority: Fixed
+        Register Mode: Transfer Continuation: DMA transfer only once
+        Register Mode: Setting 1 Destination Address: NULL
+        Register Mode: Setting 1 Source Address: NULL
+        Register Mode: Setting 1 Total Number of Transfer Bytes: 0
+        Register Mode: Setting 2 Destination Address: NULL
+        Register Mode: Setting 2 Source Address: NULL
+        Register Mode: Setting 2 Total Number of Transfer Bytes: 1
         
     Instance "g_uart0 UART Driver on r_scif_uart"
       General: Name: g_uart0

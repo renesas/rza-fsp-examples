@@ -2,10 +2,9 @@
  * File Name    : usr_app.h
  * Description  : Contains macros, data structures and functions used  in the Application
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -21,7 +20,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 /***********************************************************************************************************************
  * Includes
@@ -38,6 +37,7 @@
 #define USR_TEST_PING_IP             "172.217.160.174"
 #define USR_PING_COUNT               (10)
 #define BYTES_DATA_SEND              (8)
+#define KIT_NAME                     "RZ/A3UL-SMARC"
 
 #define SUCCESS                      (0)
 #define PRINT_UP_MSG_DISABLE         (0x01UL)
@@ -48,6 +48,18 @@
 #define ETHERNET_LINK_UP             (0x00)
 #define IP_LINK_DOWN                 (0x02)
 #define IP_LINK_UP                   (0x00)
+
+#define ETH_PREINIT         "\r\n\r\n--------------------------------------------------------------------------------\r\n" \
+                            "Ethernet adapter Configuration for Renesas "KIT_NAME ": Pre IP Init       \r\n"            \
+                            "--------------------------------------------------------------------------------\r\n\r\n"
+
+#define ETH_POSTINIT        "\r\n\r\n--------------------------------------------------------------------------------\r\n" \
+                            "Ethernet adapter Configuration for Renesas "KIT_NAME ": Post IP Init       \r\n"           \
+                            "--------------------------------------------------------------------------------\r\n\r\n"
+
+#define ETH_CHECK_CONNECT   "\r\n\r\n--------------------------------------------------------------------------------\r\n" \
+                            "Check the connection for Renesas "KIT_NAME"      \r\n"                                     \
+                            "--------------------------------------------------------------------------------\r\n\r\n"
 
 typedef struct st_ping_data
 {

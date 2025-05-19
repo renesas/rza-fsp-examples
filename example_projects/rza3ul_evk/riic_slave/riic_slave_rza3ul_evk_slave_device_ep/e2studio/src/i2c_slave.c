@@ -2,32 +2,32 @@
  * File Name    : i2c_slave.c
  * Description  : Contains data structures and functions used in i2c_slave.c.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
-*
-* This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
-* be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
-* Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
-* the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
-* intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
-* copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
-* THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
-* TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
-* INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
-* SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
-* TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
-* DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
-* INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
-* LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
-* POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
-**********************************************************************************************************************/
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
+ * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
+ * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
+ * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
+ * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
+ * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
+ * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
+ * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
+ * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
+ * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
+ * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
+ * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
+ * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
+ * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
+ * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
+ * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ */
 
 #include "common_utils.h"
 #include "i2c_slave.h"
 #include "stdbool.h"
 
 /*******************************************************************************************************************//**
- * @addtogroup r_iic_slave_ep
+ * @addtogroup r_riic_slave_ep
  * @{
  **********************************************************************************************************************/
 
@@ -65,9 +65,9 @@ static fsp_err_t iic_slave_read(void);
 void led_update(led_state_t led_state);
 
 /*******************************************************************************************************************//**
- * @brief     Initialize IIC slave driver.
+ * @brief     Initialize RIIC slave driver.
  * @param[IN] None
- * @retval    FSP_SUCCESS       R_IIC Slave driver opened successfully.
+ * @retval    FSP_SUCCESS       R_RIIC Slave driver opened successfully.
  * @retval    err               Any Other Error code apart from FSP_SUCCES like Unsuccessful Open.
  **********************************************************************************************************************/
 fsp_err_t init_i2C_driver(void)
@@ -78,8 +78,8 @@ fsp_err_t init_i2C_driver(void)
     err = R_RIIC_SLAVE_Open(&g_i2c_slave_ctrl, g_i2c_slave.p_cfg);
     if (FSP_SUCCESS != err)
     {
-        /* Display failure message in RTT */
-        APP_ERR_PRINT ("R_IIC_SLAVE_Open API failed \r\n");
+        /* Display failure message in Terminal Emulator */
+        APP_ERR_PRINT ("R_RIIC_SLAVE_Open API failed \r\n");
     }
     return err;
 }
@@ -88,8 +88,8 @@ fsp_err_t init_i2C_driver(void)
  *  @brief      performs Slave write read operations and toggle LED on successful operation
  *              else Turn LED ON on failure
  *              If slave i2c transaction failure occurs then it halts the application turning LED ON
- *              as sign of failure. Also displays failure messages in RTT.
- *  @retval     FSP_SUCCESS    On successfully R_IIC_Mater and Slave Write/Read operation.
+ *              as sign of failure. Also displays failure messages in Terminal Emulator.
+ *  @retval     FSP_SUCCESS    On successfully R_RIIC_Mater and Slave Write/Read operation.
  *  @retval     err            Any Other Error code apart from FSP_SUCCES  Unsuccessful Write/Read operation.
  **********************************************************************************************************************/
 fsp_err_t process_slave_WriteRead(void)
@@ -230,7 +230,7 @@ void i2c_slave_callback(i2c_slave_callback_args_t * p_args)
                 if(FSP_SUCCESS != err)
                 {
                 	/* Update return error here */
-                    APP_ERR_PRINT (" ** R_IIC_Slave_Read API failed **\r\n");
+                    APP_ERR_PRINT (" **  R_RIIC_Slave_Read API failed **\r\n");
                 }
                 break;
             }
@@ -247,7 +247,7 @@ void i2c_slave_callback(i2c_slave_callback_args_t * p_args)
                 if(FSP_SUCCESS != err)
                 {
                    /* Update return error here */
-                   APP_ERR_PRINT (" ** R_IIC_Slave_Write API failed **\r\n");
+                   APP_ERR_PRINT (" **  R_RIIC_Slave_Write API failed **\r\n");
                 }
                 break;
             }
@@ -260,7 +260,7 @@ void i2c_slave_callback(i2c_slave_callback_args_t * p_args)
  }
 /*******************************************************************************************************************//**
  * This function is called to do closing of external i2c master and slave module using its HAL level API.
- * @brief     Close the IIC Master and Slave module. Handle the Error internally with Proper RTT Message.
+ * @brief     Close the RIIC Master and Slave module. Handle the Error internally with Proper Terminal Emulator Message.
  *            Application handles the rest.
  * @param[in] None
  * @retval    None
@@ -269,11 +269,11 @@ void deinit_i2c_driver(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* close opened IIC slave module */
+    /* close opened RIIC slave module */
     err = R_RIIC_SLAVE_Close(&g_i2c_slave_ctrl);
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT(" ** R_IIC_Slave_Close API failed ** \r\n");
+        APP_ERR_PRINT(" **  R_RIIC_Slave_Close API failed ** \r\n");
     }
 }
 
@@ -347,5 +347,5 @@ void led_update(led_state_t led_state)
 
 }
 /*******************************************************************************************************************//**
- * @} (end addtogroup r_iic_slave_ep)
+ * @} (end addtogroup  R_RIIC_slave_ep)
  **********************************************************************************************************************/

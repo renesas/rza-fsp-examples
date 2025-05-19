@@ -1,6 +1,6 @@
-﻿/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -16,32 +16,31 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 1. Project Overview:
-    The example project shows the operation of CAN-FD running on Renesas RZ MCUs using channel 0 and channel 1 on board. 
-	On pressing any key on the Terminal Emulator, data is transmitted from one channel to other.
+    The example project shows the operation of CAN-FD running on Renesas RZ MPUs using channel 0 and channel 1 on board. 
+    On pressing any key on the Terminal Emulator, data is transmitted from one channel to other.
     On 1st transmission, Channel 0 transmits data to Channel 1. Channel 1 displays the received data.
     On 2nd transmission, Channel 1 transmits updated data to Channel 0 as ACK. Channel 0 displays the received data.
-	then Channel 0 changes CAN frame to CANFD frame and updates data
-	On 3rd transmission, Channel 0 transmits updated data to Channel 1. Channel 1 displays the received data.
-	then Channel 1 changes CAN frame to CANFD frame and updates data to transmits back to Channel 0 as ACK.
-	On 4th transmission, Channel 1 transmits updated data to Channel 0 as ACK. Channel 0 displays the received data
-	
+    then Channel 0 changes CAN frame to CANFD frame and updates data
+    On 3rd transmission, Channel 0 transmits updated data to Channel 1. Channel 1 displays the received data.
+    then Channel 1 changes CAN frame to CANFD frame and updates data to transmits back to Channel 0 as ACK.
+    On 4th transmission, Channel 1 transmits updated data to Channel 0 as ACK. Channel 0 displays the received data
+
 2. Hardware Requirement:
      Board RZ/A3UL Evaluation Board Kit- must have IC15 (to support CAN port) is on the carrier board.
      PMOD LED
 
 3. Hardware settings:
     Boot Mode:
-    Boot mode 3 (1.8-V Single, Quad, or Octal serial flash memory)
+     Boot mode 3 (1.8-V Single, Quad, or Octal serial flash memory)
 
     Board:
-    RZ/A3UL Evaluation Board Kit QSPI Edition  (Exec with DDR SDRAM)
-    RZ/A3UL Evaluation Board Kit QSPI Edition  (eXecute-In-Place)
-    RZ/A3UL Evaluation Board Kit OCTAL Edition (eXecute-In-Place)
+     RZ/A3UL Evaluation Board Kit QSPI Edition  (Exec with DDR SDRAM)
+     RZ/A3UL Evaluation Board Kit QSPI Edition  (eXecute-In-Place)
+     RZ/A3UL Evaluation Board Kit OCTAL Edition (eXecute-In-Place)
 
-  
 4. Hardware Connection:
      (1) Set for DIP switches and jumpers as follow.
 

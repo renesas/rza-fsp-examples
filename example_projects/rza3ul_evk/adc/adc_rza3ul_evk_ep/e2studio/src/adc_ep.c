@@ -2,9 +2,9 @@
  * File Name    : adc_ep.c
  * Description  : Contains variables and functions used in adc_ep.c.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -20,7 +20,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 /***********************************************************************************************************************
  * Includes
@@ -29,7 +29,6 @@
 #include "common_utils.h"
 #include "adc_ep.h"
 #include "stdbool.h"
-
 
 /*******************************************************************************************************************//**
  * @addtogroup adc_ep
@@ -61,7 +60,7 @@ static fsp_err_t adc_scan_stop(void);
 void adc_callback(adc_callback_args_t * p_args);
 
 /*******************************************************************************************************************//**
- * @brief     This function reads the command (input) from RTT and process the command(input).
+ * @brief     This function reads the command (input) from Terminal Emulator and process the command(input).
  * @param[IN]   None
  * @retval FSP_SUCCESS                  Upon successful, action of adc start or adc stop takes place
  * @retval Any Other Error code apart from FSP_SUCCES  Unsuccessful start or stop
@@ -257,7 +256,7 @@ fsp_err_t adc_read_data(void)
         if(((g_window_comp_event == true)&&(ADC_MODE_SINGLE_SCAN == g_adc_cfg.mode))||(ADC_MODE_CONTINUOUS_SCAN == g_adc_cfg.mode))
         {
 
-            /* Print temperature status warning to RTT Viewer */
+            /* Print temperature status warning to Terminal Emulator */
             if(ADC_L_LMT > g_adc_data)
             {
                 APP_PRINT("\r\nADC Voltage is below the Lower Limit. \r\n");
@@ -314,8 +313,6 @@ void adc_callback(adc_callback_args_t * p_args)
     {
 
         g_window_comp_event = true;
-
-
 
         /* Disable ADC interrupt */
 

@@ -2,9 +2,9 @@
  * File Name    : adc_ep.h
  * Description  : Contains data structures and functions used in adc_ep.c/.h.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
- * Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
+/*
+ * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * 
  * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
  * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
  * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
@@ -20,7 +20,7 @@
  * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
  * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
  * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+ */
 
 /***********************************************************************************************************************
  * Includes
@@ -33,17 +33,17 @@
  * @{
  **********************************************************************************************************************/
 
-/* Macros for Commands to be received through RTT inputs */
+/* Macros for Commands to be received through Terminal Emulator inputs */
 #define SCAN_START       (0x01)
 #define SCAN_STOP        (0x02)
 
-/* Macro for default buff size for reading through RTT */
+/* Macro for default buff size for reading through Terminal Emulator */
 #define BUFF_SIZE         (0x0F)
 
 /* Macros for checking the deviation in adc values */
 #define TEMPERATURE_DEVIATION_LIMIT       (0x04)
 
-/* Macro for indexing buffer. used to read the bytes received from RTT input */
+/* Macro for indexing buffer. used to read the bytes received from Terminal Emulator input */
 #define BUFF_INDEX       (0x00)
 
 /* Macro to provide delay in read adc data*/
@@ -57,6 +57,14 @@
 
 #define SHIFT_BY_ONE     (0x01)
 #define SHIFT_BY_THREE   (0x03)
+#define BIT_SHIFT_8        (8u)
+#define BIT_SHIFT_12      (12u)
+#define BIT_SHIFT_15      (15u)
+#define ADC_12_BIT      (4096u)
+#define ADC_16_BIT     (32768u)
+#define V_ref            (3.3f)
+#define ADC_H_LMT       (3103u)
+#define ADC_L_LMT       (1241u)
 
 /* Macros for menu options to be displayed */
 #define MENUOPTION1       "\r\nMENU to Select\r\n"
@@ -64,13 +72,12 @@
 #define MENUOPTION3       "Press 2 to Stop ADC Scan(Only for Repeat mode)\r\n"
 #define MENUOPTION4       "User Input :"
 
-
-#define BANNER_7          "\r\nThe project initializes the ADC in single scan or repeat scan mode \
+#define BANNER            "\r\nThe project initializes the ADC in single scan or repeat scan mode \
                            \r\nbased on user selection in RZ/A3UL configuration. Once initialized, user can start \
                            \r\nthe ADC scan and also stop the scan (in the case of repeat scan mode)\
                            \r\nusing Tera Term by sending commands. Results are also displayed on Tera Term.\r\n"
 
-/* Reading the commands from RTT input and process it*/
+/* Reading the commands from Terminal Emulator input and process it*/
 fsp_err_t read_process_input_from_TeraTerm(void);
 
 /* Read the adc data available */

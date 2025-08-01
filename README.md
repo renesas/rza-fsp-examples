@@ -13,9 +13,14 @@ Example projects demonstrate the operation of various peripherals available on R
 3.  Projects can be downloaded from 'Assets' section of 'releases'.
 4.  'readme.txt' file in each of the module folders provides a brief description of the example project and hardware requirements for running the projects.
 
+## Proven Environment
+Example projects have been verified using the Windows version of e² studio.
+Please refer to the release notes for the version number of e² studio used in each RZ/A FSP example project.
+
 ## References
 
 - RZ/A3UL Product Information:    [www.renesas.com/rz-mpus/rza3ul](https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rza3ul-powerful-1ghz-64-bit-mpus-rtos-support-enables-high-definition-hmi-and-quick-startup)
+- RZ/A3M Product Information:     [www.renesas.com/rz-mpus/rza3m](https://www.renesas.com/en/products/rz-a3m)
 - RZ/A Flexible Software Package: [github.com/renesas/rza-fsp](https://github.com/renesas/rza-fsp)
 - FSP Documentation:              [www.renesas.github.io/rza-fsp](https://renesas.github.io/rza-fsp/)
 - Renesas Support:                [www.renesas.com/support](https://en-support.renesas.com/dashboard)

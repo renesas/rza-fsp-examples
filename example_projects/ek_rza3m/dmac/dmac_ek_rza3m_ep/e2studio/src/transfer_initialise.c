@@ -3,23 +3,9 @@
  * Description  : Contains data structures and functions used in transfer_initialise.c
  **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include "common_utils.h"
@@ -33,29 +19,13 @@
  **********************************************************************************************************************/
 
 /* Destination array to which the DMAC writes MTU3 timer values */
-uint32_t g_dest_data[DATA_SIZE];
+uint32_t g_dest_data[DATA_SIZE] __attribute__((section("UNCACHED_BSS"), aligned(64)));
+
+/* Source data array located in uncached memory region for DMAC access */
+uint8_t g_source_data[SOURCE_DATA_SIZE] __attribute__((section("UNCACHED_BSS"), aligned(64)));
 
 /* Variable to flag for printing data on Tera Term */
-volatile bool send_data_to_console_flag = false;
-
-/* Source data that will be transferred by the DMAC g_transfer_led_blink     .
- * This data will be tran to IOPORT P11 register,
- * which specifies the input/output statesferred of a pin.
- * The register is a 8-bit register - bits[8:0] = output level (high/low)
- * The User LEDs on board are connected to I/O pins
- * Direction output is configured in "Pins configuration",
- * pin [1] high, pin [0] low state
- */
-uint8_t  g_source_data[SOURCE_DATA_SIZE]=
-{
- 0x00,0x10,0x00,0x10,0x00,0x10,
- 0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
- 0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
- 0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
- 0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
- 0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
- 0x00,0x10,0x00,0x10
-};
+volatile bool g_send_data_to_console_flag = false;
 
 /*******************************************************************************************************************//**
  *  @brief      Initializing dmac transfer instance based on transfer unit and enable for transfer
@@ -162,15 +132,37 @@ void dmac_transfer_print_data(void)
  *  @param[IN]   p_config       Transfer instance configuration structure
  *  @param[IN]   p_src          Source address
  *  @param[IN]   p_dest         Destination address
- *  @retval      None
+ *  @param[IN]   p_mmu_ctrl     Pointer to MMU control structure
+ *  @retval      FSP_SUCCESS    Address conversion and assignment successful
  **********************************************************************************************************************/
-void set_transfer_dst_src_address(transfer_cfg_t const * const p_config,
-        void const * volatile p_src, void const * volatile p_dest )
+fsp_err_t set_transfer_dst_src_address(transfer_cfg_t const * const p_config,
+        void const * volatile p_src, void const * volatile p_dest,
+        mmu_ctrl_t * const p_mmu_ctrl)
 {
-    p_config->p_info->p_src = (void *) p_src;
-    p_config->p_info->p_dest = (void *) p_dest;
-}
+    fsp_err_t err = FSP_SUCCESS;
+    uint64_t physical_src = 0;
+    uint64_t physical_dest = 0;
 
+    /* Convert virtual source address to physical address */
+    err = R_MMU_VAtoPA(p_mmu_ctrl, (uint64_t)p_src, &physical_src);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Convert virtual destination address to physical address */
+    err = R_MMU_VAtoPA(p_mmu_ctrl, (uint64_t)p_dest, &physical_dest);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Set the physical addresses for DMAC */
+    p_config->p_info->p_src = (void *)physical_src;
+    p_config->p_info->p_dest = (void *)physical_dest;
+
+    return err;
+}
 /*******************************************************************************************************************//**
  * @} (end addtogroup transfer_initialise)
  **********************************************************************************************************************/

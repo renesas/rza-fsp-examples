@@ -3,23 +3,9 @@
  * Description  : Contains data structures and functions used in sdhi_thread_entry.c.
  **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include "bsp_api.h"
@@ -35,7 +21,7 @@
 #include "sdhi_ep.h"
 #define MODULE_NAME             "SDHI"
 
-extern EventGroupHandle_t g_SDHI_EventGroupHandle;
+extern EventGroupHandle_t g_sdhi_eventgrouphandle;
 
 /* Global Variables */
 static EventBits_t xEventGroupValue = RESET_VALUE;  /* Event Group to capture the event */
@@ -43,6 +29,8 @@ static rm_freertos_plus_fat_device_t device;        /* Device structure contains
 FF_Disk_t my_disk;                                  /* Pointer to store FreeRTOS+FAT disk structure */
 
 static volatile bool mount_failed = false;          /* variable to capture mount status */
+
+static EventBits_t current_event_bits = RESET_VALUE; /* Variable to get current event bit in the event group */
 
 /* Function Declarations */
 static void process_sd_operation(uint8_t p_input_buffer);     /* Processes sd operations */
@@ -73,7 +61,7 @@ void sdhi_thread_entry(void *pvParameters)
     APP_PRINT(EP_INFO);
     APP_PRINT(SDHI_EP_NOTE);
 
-    g_SDHI_EventGroupHandle = NULL;
+    g_sdhi_eventgrouphandle = NULL;
 
     fsp_err_t freertos_fat_error = FSP_SUCCESS;
     freertos_fat_error = sd_init();
@@ -98,17 +86,27 @@ void sdhi_thread_entry(void *pvParameters)
             process_sd_operation (converted_rtt_input);
         }
 
-        if((RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_REMOVED == xEventGroupValue))
+        /* Get bit in event group */
+        current_event_bits = xEventGroupGetBits(g_sdhi_eventgrouphandle);
+
+        /* If the MEDIA_REMOVED bit is set */
+        if( RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_REMOVED == (current_event_bits & RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_REMOVED) )
         {
             APP_ERR_PRINT ("\r\n SD Card disconnected without Eject option.\r\n");
             APP_ERR_PRINT ("\r\n Connect the SD Card and Execute Safely Eject option to make sure file operations works"
-                    "correctly\r\n");
-            /* Wait until SD Card Device is connected */
-            xEventGroupValue = xEventGroupWaitBits(g_SDHI_EventGroupHandle,
-                                                   RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED,
-                                                   pdTRUE,
-                                                   pdFALSE,
-                                                   portMAX_DELAY);
+                           "correctly\r\n");
+
+            APP_PRINT("\r\n Please, re-insert the SD Card.\r\n");
+
+            /* Wait for re-insert SD */
+            freertos_fat_error = sd_init();
+            if(FSP_SUCCESS != freertos_fat_error)
+            {
+                APP_ERR_PRINT ("\r\nError in initializing FreeRTOS+FAT with SDHI\r\n");
+                APP_ERR_TRAP (freertos_fat_error);
+            }
+
+            APP_PRINT (SDHI_MENU);
         }
     }
 }
@@ -484,8 +482,11 @@ static void sd_safely_eject(void)
             APP_ERR_TRAP (freertos_fat_error);
         }
 
-        /* Clear the EventGroupBit value */
-        xEventGroupValue = xEventGroupClearBits(g_SDHI_EventGroupHandle, RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED);
+        /* Clear event MEDIA_INSERTED in the EventGroupBit */
+        xEventGroupClearBits(g_sdhi_eventgrouphandle, RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED);
+
+        /* Set xEventGroupValue to reset value */
+        xEventGroupValue = RESET_VALUE;
 
         APP_PRINT ("\r\nSD Card can be safely removed now\r\n");
     }
@@ -519,7 +520,7 @@ void free_rtos_fat_callback(rm_freertos_plus_fat_callback_args_t *p_args)
 {
     /* Post an event if FreeRTOS is available. */
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    xEventGroupSetBitsFromISR(g_SDHI_EventGroupHandle, p_args->event, &xHigherPriorityTaskWoken);
+    xEventGroupSetBitsFromISR(g_sdhi_eventgrouphandle, p_args->event, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
@@ -534,10 +535,10 @@ static fsp_err_t sd_init(void)
     int32_t ff_err = FF_ERR_NONE;
 
     /* Create event flags. */
-    if (NULL == g_SDHI_EventGroupHandle)
+    if (NULL == g_sdhi_eventgrouphandle)
     {
-        g_SDHI_EventGroupHandle = xEventGroupCreate();
-        if(NULL == g_SDHI_EventGroupHandle)
+        g_sdhi_eventgrouphandle = xEventGroupCreate();
+        if(NULL == g_sdhi_eventgrouphandle)
         {
             /* The event group was not created because there was insufficient FreeRTOS heap available. */
             APP_ERR_PRINT ("\r\nError in creating eventGroup\r\n");
@@ -559,12 +560,30 @@ static fsp_err_t sd_init(void)
     /* Wait for SD Card connection  */
     APP_PRINT (" Connect SD Card...\r\n");
 
-    /* Wait until SD Card is connected */
-    xEventGroupValue = xEventGroupWaitBits(g_SDHI_EventGroupHandle,
-                                                       RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED,
-                                                       pdTRUE,
-                                                       pdFALSE,
-                                                       portMAX_DELAY);
+    /* Read the current event-group bitmask (non-blocking snapshot). */
+    current_event_bits = xEventGroupGetBits(g_sdhi_eventgrouphandle);
+
+    /* If the MEDIA_INSERTED bit is not set, no card is detected yet — proceed to wait for insert. */
+    if ( RESET_VALUE == (current_event_bits & RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED) )
+    {
+        /* Wait until SD Card is connected */
+        xEventGroupValue = xEventGroupWaitBits( g_sdhi_eventgrouphandle,
+                                                RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED,
+                                                pdTRUE,
+                                                pdFALSE,
+                                                portMAX_DELAY);
+    }
+    else
+    {
+        /* Clear MEDIA_INSERTED bit */
+        xEventGroupClearBits(g_sdhi_eventgrouphandle, RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED);
+
+        /* Update state of xEventGroupValue variable */
+        xEventGroupValue = RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_INSERTED;
+    }
+
+    /* Clear event MEDIA_REMOVED in the EventGroupBit */
+    xEventGroupClearBits(g_sdhi_eventgrouphandle, RM_FREERTOS_PLUS_FAT_EVENT_MEDIA_REMOVED);
 
     /* Initialize the mass storage device.  This should not be done until the device is plugged in and initialized. */
     err = RM_FREERTOS_PLUS_FAT_MediaInit(&g_rm_freertos_plus_fat_ctrl, &device);

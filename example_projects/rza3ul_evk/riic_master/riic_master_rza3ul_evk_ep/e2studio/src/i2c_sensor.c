@@ -3,23 +3,9 @@
 * Description  : Contains data structures and functions used in i2c_sensor.c.
 **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include "common_utils.h"
@@ -36,10 +22,10 @@
 * Global Variables
 */
 
-uint8_t measure_enable_payload[MEASURE_PAYLOAD_SIZE] __attribute__((section("UNCACHED_BSS")));
-uint8_t adxl_data[SENSOR_DATA_SIZE] __attribute__((section("UNCACHED_BSS")));
-uint8_t internal_reg __attribute__((section("UNCACHED_BSS")));
-uint8_t reg_address   __attribute__((section("UNCACHED_BSS")))  ;
+uint8_t g_measure_enable_payload[MEASURE_PAYLOAD_SIZE] __attribute__((section("UNCACHED_BSS")));
+uint8_t g_adxl_data[SENSOR_DATA_SIZE] __attribute__((section("UNCACHED_BSS")));
+uint8_t g_internal_reg __attribute__((section("UNCACHED_BSS")));
+uint8_t g_reg_address   __attribute__((section("UNCACHED_BSS")))  ;
 
 /* Reading I2C call back event through i2c_Master callback */
 static volatile i2c_master_event_t i2c_event = I2C_MASTER_EVENT_ABORTED;
@@ -60,8 +46,8 @@ fsp_err_t init_sensor(void)
 {
     fsp_err_t err     = FSP_SUCCESS;
     uint8_t device_id = RESET_VALUE;
-    measure_enable_payload[0] =  POWER_CTL_REG;
-    measure_enable_payload[1] =  ENABLE_BIT;
+    g_measure_enable_payload[0] =  POWER_CTL_REG;
+    g_measure_enable_payload[1] =  ENABLE_BIT;
     /* opening RIIC master module */
     err = R_RIIC_MASTER_Open(&g_i2c_master_ctrl, &g_i2c_master_cfg);
     /* handle error */
@@ -78,7 +64,7 @@ fsp_err_t init_sensor(void)
     if ( (FSP_SUCCESS == err) && (DEVICE_SIGNATURE == device_id) )
     {
         /* Access to POWER_CTL Register (0x2D) and enable measurement  */
-        err = R_RIIC_MASTER_Write(&g_i2c_master_ctrl, &measure_enable_payload[0], TWO_BYTE, false);
+        err = R_RIIC_MASTER_Write(&g_i2c_master_ctrl, &g_measure_enable_payload[0], TWO_BYTE, false);
         if (FSP_SUCCESS == err)
         {
             err = validate_i2c_event();
@@ -131,8 +117,8 @@ void deinit_sensor(void)
 fsp_err_t read_sensor_data(uint8_t *xyz_data)
 {
     fsp_err_t err           = FSP_SUCCESS;
-    internal_reg = AXIS_DATA;
-    memset(adxl_data, 0U, SENSOR_DATA_SIZE);
+    g_internal_reg = AXIS_DATA;
+    memset(g_adxl_data, 0U, SENSOR_DATA_SIZE);
     if(NULL == xyz_data)
     {
         err = FSP_ERR_INVALID_POINTER;
@@ -140,7 +126,7 @@ fsp_err_t read_sensor_data(uint8_t *xyz_data)
         return err;
     }
     /* Write Accelerometer Data register   */
-    err = R_RIIC_MASTER_Write(&g_i2c_master_ctrl, &internal_reg, ONE_BYTE, true);
+    err = R_RIIC_MASTER_Write(&g_i2c_master_ctrl, &g_internal_reg, ONE_BYTE, true);
     /* handle error */
     if (FSP_SUCCESS != err)
     {
@@ -154,7 +140,7 @@ fsp_err_t read_sensor_data(uint8_t *xyz_data)
         /* Performs read operation only when write event is successful, failure part is handled at next stage*/
         if (FSP_SUCCESS == err)
         {
-            err = R_RIIC_MASTER_Read(&g_i2c_master_ctrl, &adxl_data[0], DATA_REGISTERS, false);
+            err = R_RIIC_MASTER_Read(&g_i2c_master_ctrl, &g_adxl_data[0], DATA_REGISTERS, false);
             /* handle error */
             if (FSP_SUCCESS != err)
             {
@@ -180,7 +166,7 @@ fsp_err_t read_sensor_data(uint8_t *xyz_data)
         /*  Read is successful update the x,y,z values and return success */
         for (uint8_t itr = RESET_VALUE; itr < SENSOR_DATA_SIZE; itr++)
         {
-            *(xyz_data+itr) = adxl_data[itr];
+            *(xyz_data+itr) = g_adxl_data[itr];
         }
     }
     return err;
@@ -198,7 +184,7 @@ fsp_err_t read_sensor_data(uint8_t *xyz_data)
 static fsp_err_t get_device_id(uint8_t *dev_id)
 {
     fsp_err_t err         = FSP_SUCCESS;
-    reg_address = DEVICE_ID_REG;
+    g_reg_address = DEVICE_ID_REG;
     /* Parameter checking */
     if (NULL == dev_id)
     {
@@ -208,7 +194,7 @@ static fsp_err_t get_device_id(uint8_t *dev_id)
     }
 
     /* Send register address to sensor */
-    err = R_RIIC_MASTER_Write(&g_i2c_master_ctrl, &reg_address, ONE_BYTE, true);
+    err = R_RIIC_MASTER_Write(&g_i2c_master_ctrl, &g_reg_address, ONE_BYTE, true);
     /* handle error */
     if (FSP_SUCCESS != err)
     {

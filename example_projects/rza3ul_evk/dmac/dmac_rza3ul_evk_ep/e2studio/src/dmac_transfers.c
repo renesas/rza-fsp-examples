@@ -3,23 +3,9 @@
  * Description  : Contains data structures and functions used in dmac_transfers.c
  **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include "common_utils.h"
@@ -47,6 +33,25 @@ static volatile uint32_t *p_mtu3_counter_register = &R_MTU8->TCNT;
 /* Boolean flag to determine if transfer is complete */
 volatile bool b_is_transfer_complete  = false;
 
+/* Source data that will be transferred by the DMAC g_transfer_led_blink     .
+ * This data will be tran to IOPORT P11 register,
+ * which specifies the input/output statesferred of a pin.
+ * The register is a 8-bit register - bits[8:0] = output level (high/low)
+ * The User LEDs on board are connected to I/O pins
+ * Direction output is configured in "Pins configuration",
+ * pin [1] high, pin [0] low state
+ */
+uint8_t  g_data_buffer[SOURCE_DATA_SIZE]=
+{
+0x00,0x10,0x00,0x10,0x00,0x10,
+0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
+0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
+0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
+0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
+0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,0x00,0x10,
+0x00,0x10,0x00,0x10
+};
+
 /*******************************************************************************************************************//**
  *  @brief       Perform transfer led blink operation
  *  @param[IN]   None
@@ -55,12 +60,18 @@ volatile bool b_is_transfer_complete  = false;
 void transfer_led_blink_operation(void)
 {
     fsp_err_t fsp_err = FSP_SUCCESS;    // Variable to help handle error codes from functions
-
+    memcpy(&g_source_data, &g_data_buffer, sizeof(g_source_data)); // Copy data from g_data_buffer to g_source_data
     /* Set the Source and Destination Addresses for DMAC g_transfer_led_blink .
      * NOTE: If the source and destination addresses are not set prior to
      * opening the transfer interface, then the open will fail.
      */
-    set_transfer_dst_src_address(&g_transfer_led_blink_cfg, (void *)g_source_data , (void *) p_ioport_pnctrl_register);
+    fsp_err = set_transfer_dst_src_address(&g_transfer_led_blink_cfg, (void *)g_source_data, (void *)p_ioport_pnctrl_register, &g_mmu_ctrl);
+    if (FSP_SUCCESS != fsp_err)
+    {
+        APP_ERR_PRINT("\r\n** set_transfer_dst_src_address failed ** \r\n");
+        APP_ERR_TRAP(fsp_err);
+        return;
+    }
 
     /* Open and enable dmac g_transfer_led_blink  */
     fsp_err = dmac_transfer_init( &g_transfer_led_blink_ctrl, &g_transfer_led_blink_cfg);
@@ -90,7 +101,9 @@ void transfer_led_blink_operation(void)
      * This boolean flag is set in transfer_gtm_timer_callback
      */
     while(false == b_is_transfer_complete)
-    {}
+    {
+        /* wait */
+    }
 
     /* Reset the flag */
     b_is_transfer_complete = false;
@@ -111,7 +124,13 @@ void transfer_mtu_value(void)
      * NOTE: If the source and destination addresses are not set prior to
      * opening the transfer interface, then the open will  mtu3_timer_init() fail.
      */
-    set_transfer_dst_src_address(&g_transfer_mtu_value_cfg, (void *) p_mtu3_counter_register, (void *) g_dest_data);
+    fsp_err = set_transfer_dst_src_address(&g_transfer_mtu_value_cfg, (void *)p_mtu3_counter_register, (void *)g_dest_data, &g_mmu_ctrl);
+    if (FSP_SUCCESS != fsp_err)
+    {
+        APP_ERR_PRINT("\r\n** set_transfer_dst_src_address failed ** \r\n");
+        APP_ERR_TRAP(fsp_err);
+        return;
+    }
 
     /* Open and enable dmac transfer_mtu_value */
     fsp_err = dmac_transfer_init(&g_transfer_mtu_value_ctrl, &g_transfer_mtu_value_cfg);

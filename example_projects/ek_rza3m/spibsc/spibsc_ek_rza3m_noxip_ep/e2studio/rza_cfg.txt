@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3M Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     ICLK Div /1
@@ -535,6 +536,8 @@ FSP Configuration
     
   User Events
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -545,16 +548,16 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     
   Module "FreeRTOS Port (rm_freertos_port)"
-  Module "UART Driver on r_scif_uart"
-    Parameter Checking: Default (BSP)
-    DMAC Support: Disable
-    RS485 Flow (Driver Enable) Control Support: Disable
-    
   Module "SPIBSC (r_spibsc)"
     Parameter Checking: Default (BSP)
     SPIBSC initialization: Disable
     
   Module "FreeRTOS Heap 4"
+  Module "UART Driver on r_scif_uart"
+    Parameter Checking: Default (BSP)
+    DMAC Support: Disable
+    RS485 Flow (Driver Enable) Control Support: Disable
+    
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use FPU: Enabled
@@ -640,30 +643,6 @@ FSP Configuration
         Interrupts: Generate at Start: Disable
         Extra Features: GTM Mode: Interval timer mode
         
-    Instance "g_uart_console UART Driver on r_scif_uart"
-      General: Name: g_uart_console
-      General: Channel: 0
-      General: Data Bits: 8bits
-      General: Parity: None
-      General: Stop Bits: 1bit
-      Baud: Baud Rate: 115200
-      Baud: Baud Rate Modulation: Disabled
-      Baud: Max Error (%): 5
-      Flow Control: UART Communication Mode: RS232
-      Flow Control: RS485 Driver Enable Pin Polarity: Active High
-      Flow Control: RS485 Driver Enable Port: Disabled
-      Flow Control: RS485 Driver Enable Pin: Disabled
-      Flow Control: RS232C Automatic Flow Control: Disabled
-      Extra: Clock Source: Internal Clock
-      Extra: Noise Filter: Disable
-      Extra: Receive FIFO Trigger Level: Max
-      Extra: Receive FIFO RTS Trigger Level: 14
-      Interrupts: Callback: NULL
-      Interrupts: Error Interrupt (ERI) Priority: 24
-      Interrupts: Error Interrupt (BRI) Priority: 24
-      Interrupts: Receive Interrupt Priority: 24
-      Interrupts: Transmit Data Empty Interrupt Priority: 24
-      
     Instance "g_spi_flash0 SPIBSC (r_spibsc)"
       General: Name: g_spi_flash0
       General: SPI Protocol: Extended SPI
@@ -695,6 +674,30 @@ FSP Configuration
       Bus Timing: De-select to Select Delay Cycles: 5 cycle
       
     Instance "FreeRTOS Heap 4"
+    Instance "g_uart_console UART Driver on r_scif_uart"
+      General: Name: g_uart_console
+      General: Channel: 0
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: UART Communication Mode: RS232
+      Flow Control: RS485 Driver Enable Pin Polarity: Active High
+      Flow Control: RS485 Driver Enable Port: Disabled
+      Flow Control: RS485 Driver Enable Pin: Disabled
+      Flow Control: RS232C Automatic Flow Control: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: Receive FIFO RTS Trigger Level: 14
+      Interrupts: Callback: NULL
+      Interrupts: Error Interrupt (ERI) Priority: 24
+      Interrupts: Error Interrupt (BRI) Priority: 24
+      Interrupts: Receive Interrupt Priority: 24
+      Interrupts: Transmit Data Empty Interrupt Priority: 24
+      
   Thread "Main Thread"
     Symbol: main_thread
     Name: Main Thread

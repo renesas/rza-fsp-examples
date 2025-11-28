@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3M Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,7 +22,10 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    
+
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
+
   Clocks
     ICLK Div /1
     SD0CLK Sel: 400MHz
@@ -540,7 +541,9 @@ FSP Configuration
     ID:177 DSI dsi_int_rcv (DSI Packet Receive interrupt): mipi_dsi_rcv
     ID:178 DSI dsi_int_ferr (DSI Fatal Error interrupt): mipi_dsi_ferr
     ID:179 DSI dsi_int_ppi (DSI D-PHY PPI interrupt): mipi_dsi_ppi
-    
+
+  Linker Section Mappings
+
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -661,6 +664,7 @@ FSP Configuration
       Output: Timing: Vertical sync signal polarity: High active
       Output: Timing: Data Enable Signal Polarity: High active
       Output: Timing: Sync edge: Rising edge
+      Output: Format: Color format: 24bits RGB888
       Output: Background: Red: 0
       Output: Background: Green: 0
       Output: Background: Blue: 0

@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3UL Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     PLL1 1000000000Hz
@@ -52,7 +53,7 @@ FSP Configuration
     PLL6_2 Sel: 250MHz (from PLL6)
     
   Pin Configurations
-    RZA3UL-SMARC-QSPI -> g_bsp_pin_cfg
+    RZA3UL-SMARC-QSPI.pincfg -> g_bsp_pin_cfg
       ADC_AVDD18 F17 "Power, System_ADC_AVDD18" - - - - - - - - IO "Read only" - 
       ADC_CH0 B18 - - - - - - - - - None - - 
       ADC_CH1 A18 - - - - - - - - - None - - 
@@ -776,7 +777,7 @@ FSP Configuration
       WDTOVF_PERROUT# B21 - - - - - - - - - None - - 
       XIN Y2 "Power, System_XIN" - - - - - - - - IO "Read only" - 
       XOUT AA1 "Power, System_XOUT" - - - - - - - - IO "Read only" - 
-    RZA3UL-SMARC-QSPI-XIP -> g_bsp_pin_cfg
+    RZA3UL-SMARC-QSPI-XIP.pincfg -> g_bsp_pin_cfg
       ADC_AVDD18 F17 "Power, System_ADC_AVDD18" - - - - - - - - IO "Read only" - 
       ADC_CH0 B18 - - - - - - - - - None - - 
       ADC_CH1 A18 - - - - - - - - - None - - 
@@ -1138,7 +1139,7 @@ FSP Configuration
       WDTOVF_PERROUT# B21 - - - - - - - - - None - - 
       XIN Y2 "Power, System_XIN" - - - - - - - - IO "Read only" - 
       XOUT AA1 "Power, System_XOUT" - - - - - - - - IO "Read only" - 
-    RZA3UL-SMARC-OCTAL-XIP -> g_bsp_pin_cfg
+    RZA3UL-SMARC-OCTAL-XIP.pincfg -> g_bsp_pin_cfg
       ADC_AVDD18 F17 "Power, System_ADC_AVDD18" - - - - - - - - IO "Read only" - 
       ADC_CH0 B18 - - - - - - - - - None - - 
       ADC_CH1 A18 - - - - - - - - - None - - 
@@ -1502,6 +1503,8 @@ FSP Configuration
       XOUT AA1 "Power, System_XOUT" - - - - - - - - IO "Read only" - 
     
   User Events
+    
+  Linker Section Mappings
     
   Module "MMU Driver on r_mmu"
     Parameter Checking: Default (BSP)

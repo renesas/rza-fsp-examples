@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="10">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.rza3m_ek_nor"/>
     <option key="CPU" value="RZA3M"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R9A07G066M04GBG"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R9A07G066M04GBG.pincfg"/>
-    <option key="#FSPVersion#" value="3.5.0"/>
+    <option key="#FSPVersion#" value="3.6.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3m_ek_nor##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-a-profile-aarch64"/>
     <option key="#ToolchainVersion#" value="13.2.1.20231009"/>
@@ -28,8 +28,6 @@
     <config id="config.bsp.rza3m.fsp">
       <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="12500000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="25000000"/>
-      <property id="config.bsp.fsp.mstp_change_delays" value="config.bsp.fsp.mstp_change_delays.enabled"/>
-      <property id="config.bsp.fsp.settling_delay_us" value="150"/>
     </config>
     <config id="config.bsp.rz">
       <property id="config.bsp.common.secure_stack" value="0x200"/>
@@ -41,6 +39,9 @@
       <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+    </config>
+    <config id="config.bsp.asm.rz">
+      <property id="config.bsp.common.saving_fpu_registers" value="config.bsp.common.saving_fpu_registers.enabled"/>
     </config>
   </raBspConfiguration>
   <raClockConfiguration>
@@ -105,69 +106,74 @@
     <node id="board.clock.m1clk.display" option="board.clock.m3clk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.3.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common_asm" variant="" vendor="Renesas" version="3.6.0">
+      <description>GCC assemble options</description>
+      <originalPack>Renesas.RZA_GCC_ASM.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.3.6.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.3.5.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.3.6.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.5.0">
-      <description>RZA Configuration Template File</description>
-      <originalPack>Renesas.RZA_config.3.5.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3m_ek_nor" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3m_ek_nor" variant="" vendor="Renesas" version="3.6.0">
       <description>RZ/A3M Evaluation Board NOR Boot (Exec with DDR SDRAM) Board Support Files</description>
-      <originalPack>Renesas.RZA_board_rza3m_ek_nor.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_board_rza3m_ek_nor.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3m" subgroup="device" variant="R9A07G066M04GBG" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="rza3m" subgroup="device" variant="R9A07G066M04GBG" vendor="Renesas" version="3.6.0">
       <description>Board support package for R9A07G066M04GBG</description>
-      <originalPack>Renesas.RZA_mcu_rza3m.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3m.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3m" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="rza3m" subgroup="device" variant="" vendor="Renesas" version="3.6.0">
       <description>Board support package for RZA3M</description>
-      <originalPack>Renesas.RZA_mcu_rza3m.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3m.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3m" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="rza3m" subgroup="fsp" variant="" vendor="Renesas" version="3.6.0">
       <description>Board support package for RZ/A3M (RZ/A3M) - FSP Data</description>
-      <originalPack>Renesas.RZA_mcu_rza3m.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3m.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.6.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gtm" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gtm" variant="" vendor="Renesas" version="3.6.0">
       <description>General Timer</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.6.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.6.0">
       <description>Memory Management Unit</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.6.0">
       <description>SCIF UART</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="3.6.0">
       <description>USB Basic</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_hhid" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_hhid" variant="" vendor="Renesas" version="3.6.0">
       <description>USB Host Human Interface Device Class</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.6.0">
       <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.6.0">
+      <description>RZA Configuration Template File</description>
+      <originalPack>Renesas.RZA_config.3.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
+  <raLinkMapConfiguration/>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
       <property id="module.driver.ioport.name" value="g_ioport"/>
@@ -215,7 +221,7 @@
     </module>
     <module id="module.freertos.heap.4.899548160"/>
     <module id="module.driver.hhid_on_usb.873016922">
-      <property id="module.driver.hhid.name" value="g_hhid"/>
+      <property id="module.driver.hhid.name" value="g_usb_hhid"/>
     </module>
     <module id="module.driver.basic_on_usb_host.864167117">
       <property id="module.driver.basic.name" value="g_usb_basic"/>

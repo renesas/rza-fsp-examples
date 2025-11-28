@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3M Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     ICLK Div /1
@@ -535,6 +536,8 @@ FSP Configuration
     
   User Events
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -737,8 +740,8 @@ FSP Configuration
           Callback: rm_freertos_plus_fat_memory_callback
           Pointer to user context: &g_rm_freertos_plus_fat0_ctrl
           
-          Instance "g_hmsc0 USB HMSC (r_usb_hmsc)"
-            Name: g_hmsc0
+          Instance "g_hmsc USB HMSC (r_usb_hmsc)"
+            Name: g_hmsc
             Context name: g_rm_block_media0_ctrl
             Callback name: rm_block_media_usb_callback
             

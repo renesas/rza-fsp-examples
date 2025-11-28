@@ -15,13 +15,13 @@
     <listAttribute key="com.renesas.cdt.core.listGDBPort">
         <listEntry value="61234"/>
     </listAttribute>
-    <stringAttribute key="com.renesas.cdt.core.optionInitCommands" value=""/>
+    <stringAttribute key="com.renesas.cdt.core.optionInitCommands" value="monitor force_rtos_off&#10;&#10;"/>
     <intAttribute key="com.renesas.cdt.core.portNumber" value="61234"/>
     <stringAttribute key="com.renesas.cdt.core.runCommands" value=""/>
     <stringAttribute key="com.renesas.cdt.core.secondGDBExe" value="green_dsp-elf-gdb"/>
     <booleanAttribute key="com.renesas.cdt.core.secondGDBSupport" value="false"/>
     <intAttribute key="com.renesas.cdt.core.secondGdbPortNumber" value="61237"/>
-    <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R9A07G063U02GBG -uConnectionTimeout= 30 -uSelect= &quot;USB&quot; -uJLinkSetting= &quot;${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink&quot; -uJLinkLog= &quot;${workspace_loc:/${ProjName}}/JLinkLog.log&quot; -uLowPower= 0 -uInteface= &quot;SWD&quot; -uIfSpeed= &quot;15000&quot; -uResetBeginConnection= 1 -uNoReset= 1 -uIdCodeBytes=  &quot;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&quot; -uReleaseCM3= 0 -uDisconnectionMode= &quot;2&quot; -uSWOcoreClock= &quot;0&quot; -uresetOnReload= 1 -n &quot;0&quot; -uFlashBp= 1 -uSimulation= 0 -uflashMemoryType= &quot;SerialFlash&quot; -uflashBusType= &quot;SPIBSC&quot; -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uAllowCachingFlash= 0 -uResetBehavior= &quot;Reset&quot;"/>
+    <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R9A07G063U02GBG -uConnectionTimeout= 30 -uSelect= &quot;USB&quot; -uJLinkSetting= &quot;${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink&quot; -uJLinkLog= &quot;${workspace_loc:/${ProjName}}/JLinkLog.log&quot; -uLowPower= 0 -uInteface= &quot;SWD&quot; -uIfSpeed= &quot;15000&quot; -uResetBeginConnection= 1 -uNoReset= 1 -uIdCodeBytes=  &quot;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&quot; -uDisconnectionMode= &quot;2&quot; -uSWOcoreClock= &quot;0&quot; -uresetOnReload= 1 -n &quot;0&quot; -uFlashBp= 1 -uSimulation= 0 -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uAllowCachingFlash= 0 -uResetBehavior= &quot;Reset&quot;"/>
     <booleanAttribute key="com.renesas.cdt.core.setResume" value="true"/>
     <booleanAttribute key="com.renesas.cdt.core.startServer" value="true"/>
     <stringAttribute key="com.renesas.cdt.core.targetDevice" value="R9A07G063U02GBG"/>
@@ -29,7 +29,7 @@
     <stringAttribute key="com.renesas.cdt.launch.dsf.IO_MAP" value="${support_area_loc}"/>
     <booleanAttribute key="com.renesas.cdt.launch.dsf.USE_DEFAULT_IO_MAP" value="true"/>
     <listAttribute key="com.renesas.cdt.launch.dsf.downloadImages">
-        <listEntry value="|true|false|true||true|No core|INTERNAL_MEMORY||false"/>
+        <listEntry value="|true|false|true|0|true|No core|INTERNAL_MEMORY||false"/>
         <listEntry value="${workspace_loc:\scig_uart_rza3ul_evk_ep\ipl\rza3ul_smarc_qspi_ipl.srec}|true|true|true|0|true|No core|INTERNAL_MEMORY||false"/>
         <listEntry value="${workspace_loc:\scig_uart_rza3ul_evk_ep\Debug\scig_uart_rza3ul_evk_ep.srec}|true|true|true|0|true|No core|INTERNAL_MEMORY||false"/>
     </listAttribute>
@@ -60,6 +60,7 @@
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.resetPreRun" value="true"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.setArMModeAfterDownload" value="false"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.swv.coreClockSpeed" value="0"/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.wakeupallcores" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.enable.hot.plug" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.eraseDataRomOnDownload" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.eraseRomOnDownload" value="false"/>
@@ -77,15 +78,17 @@
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.settingsFile" value="${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.type" value="USB"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.usbSerial" value=""/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.memory.initialize_RAM" value="true"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.memory.isLittleEndian" value="true"/>
+    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.memory.map_mode" value="0"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.nonSecureVectorAddress" value=""/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.prog_rewrite_irom" value="false"/>
     <intAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rbtm" value="0"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rbtm.everycycleenable" value="true"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.resetAfterReload" value="true"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosIntegrationInDebugView" value="true"/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosIntegrationInDebugView" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosintegrationthreadsrunning" value="false"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.release.reset" value="true"/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.release.reset" value="false"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.reset.PcOnReset" value=""/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.reset.behaviorOfReset" value="Reset"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.reset.setCpsrOnReset" value=""/>
@@ -93,10 +96,20 @@
     <intAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.irPre" value="0"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.multiDevices" value="false"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.secureVectorAddress" value=""/>
+    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.security.authentication_dll" value=""/>
+    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.security.customer_id" value=""/>
+    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.security.dataflash_id" value=""/>
+    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.security.id_ocd" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.security.id_ocd.format.big_endian" value="false"/>
+    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.security.id_ocd.input_type" value="0"/>
+    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.security.productSpecific_id" value=""/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.security.use_authentication_dll" value="false"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.semihosting.breakpointAddress" value=""/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.setTZAuthKey" value=""/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.setTZAuthLevel" value="0"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.setTZBoundaries" value="false"/>
+    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.supply_voltage_asp" value="0"/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.use_multidevice_synchronous_debug" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.timemeasurement" value="false"/>
     <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
@@ -135,6 +148,4 @@
         <listEntry value="4"/>
     </listAttribute>
     <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
-    <stringAttribute key="org.eclipse.dsf.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;memoryBlockExpressionList context=&quot;reserved-for-future-use&quot;/&gt;"/>
-    <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
 </launchConfiguration>

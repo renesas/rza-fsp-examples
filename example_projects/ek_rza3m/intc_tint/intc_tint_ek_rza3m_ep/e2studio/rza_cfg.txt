@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3M Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     ICLK Div /1
@@ -534,6 +535,8 @@ FSP Configuration
       ZQ H20 - - - - - - - - - None - - 
     
   User Events
+    
+  Linker Section Mappings
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)

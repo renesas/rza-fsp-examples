@@ -3,23 +3,9 @@
  * Description  : Entry function.
  **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include <stdio.h>
@@ -37,11 +23,12 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 FSP_CPP_FOOTER
 
 /* Global variables */
+static uint8_t g_buf[READ_BUF_SIZE]  USB_BUFFER_PLACE_IN_SECTION;
 extern uint8_t g_apl_device[];
 extern uint8_t g_apl_configuration[];
 extern uint8_t g_apl_hs_configuration[];
 extern uint8_t g_apl_qualifier_descriptor[];
-extern uint8_t *g_apl_string_table[];
+extern uint8_t *gp_apl_string_table[];
 extern int g_curr_led_freq;
 
 const usb_descriptor_t usb_descriptor =
@@ -50,7 +37,7 @@ const usb_descriptor_t usb_descriptor =
  g_apl_configuration,            /* Pointer to the configuration descriptor for Full-speed */
  g_apl_hs_configuration,         /* Pointer to the configuration descriptor for Hi-speed */
  g_apl_qualifier_descriptor,     /* Pointer to the qualifier descriptor */
- g_apl_string_table,             /* Pointer to the string descriptor table */
+ gp_apl_string_table,             /* Pointer to the string descriptor table */
  NUM_STRING_DESCRIPTOR
 };
 
@@ -107,7 +94,6 @@ void hal_entry(void)
 
     fsp_err_t err                           = FSP_SUCCESS;
     usb_event_info_t    event_info          = {0};
-    uint8_t g_buf[READ_BUF_SIZE]            = {0};
     static usb_pcdc_linecoding_t g_line_coding;
 
     /* Initialize GTM, IRQ modules */

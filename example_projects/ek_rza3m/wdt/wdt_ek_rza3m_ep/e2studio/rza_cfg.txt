@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3M Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     ICLK Div /1
@@ -535,6 +536,8 @@ FSP Configuration
     
   User Events
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -582,10 +585,10 @@ FSP Configuration
       Extra: Receive FIFO Trigger Level: Max
       Extra: Receive FIFO RTS Trigger Level: 14
       Interrupts: Callback: uart0_cb_stdio
-      Interrupts: Error Interrupt (ERI) Priority: 24
-      Interrupts: Error Interrupt (BRI) Priority: 24
-      Interrupts: Receive Interrupt Priority: 24
-      Interrupts: Transmit Data Empty Interrupt Priority: 24
+      Interrupts: Error Interrupt (ERI) Priority: 12
+      Interrupts: Error Interrupt (BRI) Priority: 12
+      Interrupts: Receive Interrupt Priority: 12
+      Interrupts: Transmit Data Empty Interrupt Priority: 12
       
     Instance "g_external_irq External IRQ Driver on r_intc_irq"
       Name: g_external_irq

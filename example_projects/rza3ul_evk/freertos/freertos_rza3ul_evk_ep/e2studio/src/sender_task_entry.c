@@ -3,23 +3,9 @@
  * Description  : Contains function definition.
  **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 #include "sender_task.h"
 #include "common_utils.h"
@@ -37,7 +23,7 @@ void sender_task_entry(void *pvParameters)
     FSP_PARAMETER_NOT_USED (pvParameters);
 
     /* Variable to store task state */
-    eTaskState Task_State = (eTaskState) RESET_VALUE;
+    eTaskState task_state = (eTaskState) RESET_VALUE;
 
     fsp_pack_version_t version = {RESET_VALUE};
 
@@ -60,8 +46,8 @@ void sender_task_entry(void *pvParameters)
     /* Check the task state, if in running or ready state only,
      * suspend Semaphore task. Semaphore task will be resumed after
      * Message Queue task has completed execution */
-    Task_State = eTaskGetState ( semaphore_task );
-    if( (eBlocked == Task_State)  ||  (eRunning == Task_State)  || (eReady == Task_State) )
+    task_state = eTaskGetState ( semaphore_task );
+    if( (eBlocked == task_state)  ||  (eRunning == task_state)  || (eReady == task_state) )
     {
         vTaskSuspend (semaphore_task);
     }
@@ -141,7 +127,6 @@ void sender_task_entry(void *pvParameters)
     }
 }
 
-
 /*******************************************************************************************************************//**
  * @brief      User defined GTM irq callback for Message Queue.
  *
@@ -153,7 +138,7 @@ void periodic_timer_msgq_cb(timer_callback_args_t *p_args)
     FSP_PARAMETER_NOT_USED (p_args);
 
     /* Counter to track task suspend count */
-    static uint8_t msgQ_counter = RESET_VALUE;
+    static uint8_t msg_q_counter = RESET_VALUE;
 
     /* Variable is set to true if priority of unblocked task is higher
      * than the task that was in running state when interrupt occurred */
@@ -163,7 +148,7 @@ void periodic_timer_msgq_cb(timer_callback_args_t *p_args)
     static msg_t message_to_task = {200 , "GTM Callback"};
 
     /* If ISR is executed for 10sec then set the flag to suspend task */
-    if( TASK_SUSPEND_COUNT == msgQ_counter )
+    if( TASK_SUSPEND_COUNT == msg_q_counter )
     {
         /* Set flag to suspend Message Queue tasks */
         b_suspend_msqQ_task = true;
@@ -174,7 +159,7 @@ void periodic_timer_msgq_cb(timer_callback_args_t *p_args)
         if ( pdPASS ==  xQueueSendToBackFromISR (g_queue , &message_to_task , &xHigherPriorityTaskWoken) )
         {
             /* Increment counter on successfully sending message */
-            msgQ_counter++;
+            msg_q_counter++;
         }
     }
     /* A context switch will be performed if xHigherPriorityTaskWoken is equal to pdTRUE. */

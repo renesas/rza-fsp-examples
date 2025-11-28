@@ -3,23 +3,9 @@
  * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 /***********************************************************************************************************************
@@ -41,20 +27,19 @@ volatile uint32_t g_time_out = WAIT_TIME;
 extern bsp_leds_t g_bsp_leds;
 
 /* User defined function */
-extern void led_update(led_state_t led_state);
 static void led_pin_initialisation(void);
 
 /* Flags to be set in Callback function */
-bool b_canfd_ch0_tx_complete = false;
-bool b_canfd_ch0_rx_complete = false;
+bool g_b_canfd_ch0_tx_complete = false;
+bool g_b_canfd_ch0_rx_complete = false;
 
-bool b_canfd_ch1_tx_complete = false;
-bool b_canfd_ch1_rx_complete = false;
+bool g_b_canfd_ch1_tx_complete = false;
+bool g_b_canfd_ch1_rx_complete = false;
 
-bool b_canfd_err_status = false;
+bool g_b_canfd_err_status = false;
 
 /* Acceptance filter array parameters */
-const canfd_afl_entry_t p_canfd_ch0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] =
+const canfd_afl_entry_t g_p_canfd_ch0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] =
 {
  { /* Accept all messages with Extended ID 0x1000-0x1FFF */
    .id =
@@ -88,7 +73,7 @@ const canfd_afl_entry_t p_canfd_ch0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] =
  },
 };
 
-const canfd_afl_entry_t p_canfd_ch1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] =
+const canfd_afl_entry_t g_p_canfd_ch1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] =
 {
  { /* Accept all messages with Extended ID 0x1000-0x1FFF */
    .id =
@@ -181,9 +166,9 @@ void hal_entry(void)
 
         /* Get the status of transmitted frame and read the data */
         can_read_operation();
-        if(true == b_canfd_err_status)
+        if(true == g_b_canfd_err_status)
         {
-            b_canfd_err_status = false;
+            g_b_canfd_err_status = false;
             APP_ERR_PRINT("CAN ERR status\r\n");
             led_update(error);
             APP_ERR_TRAP(true);

@@ -3,23 +3,9 @@
  * Description  : Contains data structures and functions used in can_fd_ep.c
  ***********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include "common_utils.h"
@@ -37,7 +23,7 @@
  can_frame_t g_canfd_ch1_rx_frame;                      //CAN 1 receive frame
 
  /* Variable to store rx frame status info of channel 0*/
- can_info_t can_ch0_rx_info =
+ can_info_t g_can_ch0_rx_info =
  {
   .error_code  = RESET_VALUE,
   .error_count_receive = RESET_VALUE,
@@ -48,7 +34,7 @@
  };
 
  /* Variable to store rx frame status info of channel 1*/
- can_info_t can_ch1_rx_info =
+ can_info_t g_can_ch1_rx_info =
  {
   .error_code  = RESET_VALUE,
   .error_count_receive = RESET_VALUE,
@@ -59,17 +45,17 @@
  };
 
 /* Data to be loaded in Classic CAN and FD frames for transmission and acknowledgement */
-uint8_t tx_data[SIZE_64] = "TX_MESG";
-uint8_t rx_data[SIZE_64] = "RX_MESG";
-uint8_t tx_fd_data[SIZE_64];
-uint8_t rx_fd_data[SIZE_64];
+uint8_t g_tx_data[SIZE_64] = "TX_MESG";
+uint8_t g_rx_data[SIZE_64] = "RX_MESG";
+uint8_t g_tx_fd_data[SIZE_64];
+uint8_t g_rx_fd_data[SIZE_64];
 
-extern bool b_canfd_ch0_tx_complete ;
-extern bool b_canfd_ch0_rx_complete ;
+extern bool g_b_canfd_ch0_tx_complete ;
+extern bool g_b_canfd_ch0_rx_complete ;
 
-extern bool b_canfd_ch1_tx_complete ;
-extern bool b_canfd_ch1_rx_complete ;
-extern bool b_canfd_err_status ;
+extern bool g_b_canfd_ch1_tx_complete ;
+extern bool g_b_canfd_ch1_rx_complete ;
+extern bool g_b_canfd_err_status ;
 
 extern bsp_leds_t g_bsp_leds;
 extern uint32_t g_time_out;
@@ -78,7 +64,6 @@ extern uint32_t g_time_out;
 static void can_write_operation(canfd_instance_ctrl_t p_api_ctrl, can_frame_t can_transmit_frame);
 static void can_fd_data_update(void);
 static void can_data_check_operation(void);
-void led_update(led_state_t led_state);
 
 /*******************************************************************************************************************//**
  * @brief       This function is to transmit data after receiving user input and it performs subsequent operations
@@ -95,7 +80,7 @@ void canfd_operation(void)
     g_canfd_ch0_tx_frame.options = ZERO;
 
     /* Update transmit frame data with message */
-    memcpy((uint8_t*)&g_canfd_ch0_tx_frame.data[ZERO], (uint8_t*)&tx_data[ZERO], CAN_FD_DATA_LENGTH_CODE);
+    memcpy((uint8_t*)&g_canfd_ch0_tx_frame.data[ZERO], (uint8_t*)&g_tx_data[ZERO], CAN_FD_DATA_LENGTH_CODE);
 
     APP_PRINT("\r\n 1. Transmission of data over classic CAN Frame\r\n");
 
@@ -128,7 +113,7 @@ static void can_write_operation(canfd_instance_ctrl_t p_api_ctrl, can_frame_t ca
     led_update(transmitting);
 
     /* Wait here for an event from callback */
-    while ((true != b_canfd_ch0_tx_complete) && (true != b_canfd_ch1_tx_complete))
+    while ((true != g_b_canfd_ch0_tx_complete) && (true != g_b_canfd_ch1_tx_complete))
     {
         g_time_out--;
         if (RESET_VALUE == g_time_out)
@@ -141,13 +126,13 @@ static void can_write_operation(canfd_instance_ctrl_t p_api_ctrl, can_frame_t ca
     }
 
     /* Reset flag bit */
-    if(true == b_canfd_ch0_tx_complete )
+    if(true == g_b_canfd_ch0_tx_complete )
     {
-        b_canfd_ch0_tx_complete = false;
+        g_b_canfd_ch0_tx_complete = false;
     }
-    if(true == b_canfd_ch1_tx_complete )
+    if(true == g_b_canfd_ch1_tx_complete )
     {
-        b_canfd_ch1_tx_complete = false;
+        g_b_canfd_ch1_tx_complete = false;
     }
 }
 
@@ -161,7 +146,7 @@ static void can_data_check_operation(void)
     /*Update data to be compared with data transmitted/received over FD frame */
     can_fd_data_update();
 
-    if(RESET_VALUE == strncmp((char*)&g_canfd_ch1_rx_frame.data[ZERO], (char*)&tx_data[ZERO], CAN_CLASSIC_FRAME_DATA_BYTES))
+    if(RESET_VALUE == strncmp((char*)&g_canfd_ch1_rx_frame.data[ZERO], (char*)&g_tx_data[ZERO], CAN_CLASSIC_FRAME_DATA_BYTES))
     {
         /* Cleaning receive frame */
         memset(&g_canfd_ch1_rx_frame.data[ZERO], NULL_CHAR, CAN_CLASSIC_FRAME_DATA_BYTES);
@@ -177,7 +162,7 @@ static void can_data_check_operation(void)
         g_canfd_ch1_tx_frame.options = ZERO;
 
         /* Update transmit frame data with message */
-        memcpy(&g_canfd_ch1_tx_frame.data, &rx_data, CAN_CLASSIC_FRAME_DATA_BYTES);
+        memcpy(&g_canfd_ch1_tx_frame.data, &g_rx_data, CAN_CLASSIC_FRAME_DATA_BYTES);
 
         /* Transmission of data as acknowledgement */
         can_write_operation(g_canfd_ch1_ctrl, g_canfd_ch1_tx_frame);
@@ -185,7 +170,7 @@ static void can_data_check_operation(void)
         APP_PRINT("CAN transmission after receive is successful. Sent back the ACK using classic CAN frame\r\n");
 
     }
-    else if(RESET_VALUE == strncmp((char*)&g_canfd_ch0_rx_frame.data[ZERO], (char*)&rx_data[ZERO], CAN_CLASSIC_FRAME_DATA_BYTES))
+    else if(RESET_VALUE == strncmp((char*)&g_canfd_ch0_rx_frame.data[ZERO], (char*)&g_rx_data[ZERO], CAN_CLASSIC_FRAME_DATA_BYTES))
     {
         /* Cleaning receive frame */
         memset(&g_canfd_ch0_rx_frame.data[ZERO], NULL_CHAR, CAN_CLASSIC_FRAME_DATA_BYTES);
@@ -211,7 +196,7 @@ static void can_data_check_operation(void)
         APP_PRINT("CAN transmission on FD Frame after receiving classic frame ACK is successful\r\n");
 
     }
-    else if(RESET_VALUE == strncmp((char*)&g_canfd_ch1_rx_frame.data[ZERO], (char*)&tx_fd_data[ZERO], CAN_FD_DATA_LENGTH_CODE)) // acknowledging for second transmission
+    else if(RESET_VALUE == strncmp((char*)&g_canfd_ch1_rx_frame.data[ZERO], (char*)&g_tx_fd_data[ZERO], CAN_FD_DATA_LENGTH_CODE)) // acknowledging for second transmission
     {
         /* Cleaning receive frame */
         memset(&g_canfd_ch1_rx_frame.data[ZERO], NULL_CHAR, CAN_CLASSIC_FRAME_DATA_BYTES);
@@ -237,7 +222,7 @@ static void can_data_check_operation(void)
         APP_PRINT("CAN transmission on FD Frame as acknowledgement is successful\r\n");
 
     }
-    else if(RESET_VALUE == strncmp((char*)&g_canfd_ch0_rx_frame.data[ZERO], (char*)&rx_fd_data[ZERO], CAN_FD_DATA_LENGTH_CODE)) // acknowledgement for second transmission
+    else if(RESET_VALUE == strncmp((char*)&g_canfd_ch0_rx_frame.data[ZERO], (char*)&g_rx_fd_data[ZERO], CAN_FD_DATA_LENGTH_CODE)) // acknowledgement for second transmission
     {
         /* Cleaning receive frame */
         memset(&g_canfd_ch0_rx_frame.data[ZERO], NULL_CHAR, CAN_CLASSIC_FRAME_DATA_BYTES);
@@ -262,10 +247,10 @@ void can_read_operation(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    if (b_canfd_ch0_rx_complete == true)
+    if (g_b_canfd_ch0_rx_complete == true)
     {
         /* Get the status information for CAN transmission */
-        err = R_CANFD_InfoGet (&g_canfd_ch0_ctrl, &can_ch0_rx_info);
+        err = R_CANFD_InfoGet (&g_canfd_ch0_ctrl, &g_can_ch0_rx_info);
         /* Handle error */
         if (FSP_SUCCESS != err)
         {
@@ -275,7 +260,7 @@ void can_read_operation(void)
             APP_ERR_TRAP(err);
         }
         /* Check if the data is received in FIFO */
-        if (can_ch0_rx_info.rx_mb_status)
+        if (g_can_ch0_rx_info.rx_mb_status)
         {
             /* Read the input frame received */
             err = R_CANFD_Read (&g_canfd_ch0_ctrl, ZERO, &g_canfd_ch0_rx_frame);
@@ -289,7 +274,7 @@ void can_read_operation(void)
             }
 
             /* Reset flag bit */
-            b_canfd_ch0_rx_complete = false;
+            g_b_canfd_ch0_rx_complete = false;
 
             /*Check if the transmitted and received data are same and send ACK accordingly */
             can_data_check_operation();
@@ -300,10 +285,10 @@ void can_read_operation(void)
         }
 
     }
-    else if (b_canfd_ch1_rx_complete == true)
+    else if (g_b_canfd_ch1_rx_complete == true)
     {
         /* Get the status information for CAN transmission */
-        err = R_CANFD_InfoGet (&g_canfd_ch1_ctrl, &can_ch1_rx_info);
+        err = R_CANFD_InfoGet (&g_canfd_ch1_ctrl, &g_can_ch1_rx_info);
         /* Handle error */
         if (FSP_SUCCESS != err)
         {
@@ -314,7 +299,7 @@ void can_read_operation(void)
         }
 
         /* Check if the data is received in FIFO */
-        if (can_ch1_rx_info.rx_mb_status)
+        if (g_can_ch1_rx_info.rx_mb_status)
         {
             /*/* Read the input frame received */
             err = R_CANFD_Read (&g_canfd_ch1_ctrl, ZERO, &g_canfd_ch1_rx_frame);
@@ -328,7 +313,7 @@ void can_read_operation(void)
             }
 
             /* Reset flag bit */
-            b_canfd_ch1_rx_complete = false;
+            g_b_canfd_ch1_rx_complete = false;
 
             /*Check if the transmitted and received data are same and send ACK accordingly */
             can_data_check_operation();
@@ -356,11 +341,11 @@ static void can_fd_data_update(void)
     /* Fill frame data to be compared with data transmitted on CANFD frame*/
     for( uint16_t i = 0; i < SIZE_64; i++)
     {
-        tx_fd_data[i]          = (uint8_t) (i + 1);
+        g_tx_fd_data[i]          = (uint8_t) (i + 1);
     }
     for(uint16_t j = 0; j < SIZE_64; j++)
     {
-        rx_fd_data[j] = (uint8_t) (j + 5);
+        g_rx_fd_data[j] = (uint8_t) (j + 5);
     }
 }
 
@@ -446,12 +431,12 @@ void canfd_ch0_callback(can_callback_args_t *p_args)
     {
         case CAN_EVENT_TX_COMPLETE:
         {
-            b_canfd_ch0_tx_complete = true;        // set flag bit
+            g_b_canfd_ch0_tx_complete = true;        // set flag bit
             break;
         }
         case CAN_EVENT_RX_COMPLETE: // Currently driver don't support this. This is unreachable code for now.
         {
-            b_canfd_ch0_rx_complete = true;
+            g_b_canfd_ch0_rx_complete = true;
             break;
         }
         case CAN_EVENT_ERR_WARNING:             // error warning event
@@ -466,7 +451,7 @@ void canfd_ch0_callback(can_callback_args_t *p_args)
         case CAN_EVENT_TX_FIFO_EMPTY :          // Transmit FIFO is empty
         case CAN_EVENT_FIFO_MESSAGE_LOST:        // Receive FIFO overrun.
         {
-            b_canfd_err_status = true;          // set flag bit
+            g_b_canfd_err_status = true;          // set flag bit
             break;
         }
 
@@ -479,12 +464,12 @@ void canfd_ch1_callback(can_callback_args_t *p_args)
     {
         case CAN_EVENT_TX_COMPLETE:
         {
-            b_canfd_ch1_tx_complete = true;        // set flag bit
+            g_b_canfd_ch1_tx_complete = true;        // set flag bit
             break;
         }
         case CAN_EVENT_RX_COMPLETE: // Currently driver don't support this. This is unreachable code for now.
         {
-            b_canfd_ch1_rx_complete = true;
+            g_b_canfd_ch1_rx_complete = true;
             break;
         }
         case CAN_EVENT_ERR_WARNING:             // error warning event
@@ -499,7 +484,7 @@ void canfd_ch1_callback(can_callback_args_t *p_args)
         case CAN_EVENT_TX_FIFO_EMPTY :          // Transmit FIFO is empty
         case CAN_EVENT_FIFO_MESSAGE_LOST:        // Receive FIFO overrun.
         {
-            b_canfd_err_status = true;          // set flag bit
+            g_b_canfd_err_status = true;          // set flag bit
             break;
         }
     }

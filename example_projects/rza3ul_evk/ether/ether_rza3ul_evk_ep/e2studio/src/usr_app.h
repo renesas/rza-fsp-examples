@@ -3,23 +3,9 @@
  * Description  : Contains macros, data structures and functions used  in the Application
  ***********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 /***********************************************************************************************************************
@@ -33,8 +19,8 @@
  #include "FreeRTOS_DHCP.h"
 #endif
 
-#define USR_TEST_DOMAIN_NAME         "www.freertos.org"
-#define USR_TEST_PING_IP             "172.217.160.174"
+#define USR_TEST_DOMAIN_NAME         "www.google.com"
+#define USR_TEST_PING_IP             "8.8.8.8"
 #define USR_PING_COUNT               (10)
 #define BYTES_DATA_SEND              (8)
 #define KIT_NAME                     "RZ/A3UL-SMARC"
@@ -83,7 +69,7 @@ typedef struct st_ping_status
 } ping_status_t;
 
 #if (ipconfigUSE_DHCP != 0)
-void updateDhcpResponseToUsr(void);
+void update_dhcp_response_to_usr(void);
 
 #endif
 
@@ -106,12 +92,12 @@ uint32_t ulApplicationGetNextSequenceNumber(uint32_t ulSourceAddress,
                                             uint16_t usSourcePort,
                                             uint32_t ulDestinationAddress,
                                             uint16_t usDestinationPort);
-uint32_t   ulRand();
-uint32_t   isNetworkUp(void);
-BaseType_t vSendPing(const char * pcIPAddress);
+uint32_t   ul_rand();
+uint32_t   is_network_up(void);
+BaseType_t v_send_ping(const char * pcIPAddress);
 void       print_ipconfig(void);
-void       print_pingResult(void);
-void       dnsQuerryFunc(char * domain_name);
+void       print_ping_result(void);
+void       dns_querry_func(char * domain_name);
 uint32_t   max_time (ping_status_t pings_status[]);
 uint32_t   min_time (ping_status_t pings_status[]);
 uint32_t   average_time (ping_status_t pings_status[]);

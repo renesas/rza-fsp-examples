@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="10">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.rza3ul_smarc_qspi"/>
     <option key="CPU" value="RZA3UL"/>
@@ -9,8 +9,8 @@
     <option key="#DeviceCommand#" value="R9A07G063U02GBG"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R9A07G063U02GBG.pincfg"/>
-    <option key="#FSPVersion#" value="3.5.0"/>
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi##|Renesas##BSP##Board##rza3ul_smarc_qspi_xip##"/>
+    <option key="#FSPVersion#" value="3.6.0"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rza3ul_smarc_qspi##|Renesas##BSP##Board##rza3ul_smarc_qspi_xip##|Renesas##BSP##Board##rza3ul_smarc_octal_xip##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-a-profile-aarch64"/>
     <option key="#ToolchainVersion#" value="13.2.1.20231009"/>
   </generalSettings>
@@ -37,8 +37,6 @@
       <property id="config.bsp.fsp.mcu.canfd.max_data_sync_jump_width" value="8"/>
       <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="12500000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="25000000"/>
-      <property id="config.bsp.fsp.mstp_change_delays" value="config.bsp.fsp.mstp_change_delays.enabled"/>
-      <property id="config.bsp.fsp.settling_delay_us" value="150"/>
     </config>
     <config id="config.bsp.rz">
       <property id="config.bsp.common.secure_stack" value="0x200"/>
@@ -50,6 +48,9 @@
       <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+    </config>
+    <config id="config.bsp.asm.rz">
+      <property id="config.bsp.common.saving_fpu_registers" value="config.bsp.common.saving_fpu_registers.enabled"/>
     </config>
   </raBspConfiguration>
   <raClockConfiguration>
@@ -129,77 +130,81 @@
     <node id="board.clock.hpclk.display" option="board.clock.hpclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="R9A07G063U02GBG" vendor="Renesas" version="3.6.0">
       <description>Board support package for R9A07G063U02GBG</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="device" variant="" vendor="Renesas" version="3.6.0">
       <description>Board support package for RZA3UL</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="rza3ul" subgroup="fsp" variant="" vendor="Renesas" version="3.6.0">
       <description>Board support package for RZ/A3UL (RZ/A3UL) - FSP Data</description>
-      <originalPack>Renesas.RZA_mcu_rza3ul.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA_mcu_rza3ul.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.3.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common_asm" variant="" vendor="Renesas" version="3.6.0">
+      <description>GCC assemble options</description>
+      <originalPack>Renesas.RZA_GCC_ASM.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.3.6.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.3.5.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.3.6.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.5.0">
-      <description>RZA Configuration Template File</description>
-      <originalPack>Renesas.RZA_config.3.5.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.5.0">
-      <description>RZ/A3UL Evaluation Board Kit QSPI Edition (Exec with DDR SDRAM) Board Support Files</description>
-      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.5.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.6.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gether" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gether" variant="" vendor="Renesas" version="3.6.0">
       <description>Gigabit Ethernet</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gether_phy" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gether_phy" variant="" vendor="Renesas" version="3.6.0">
       <description>Gigabit Ethernet PHY</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gtm" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gtm" variant="" vendor="Renesas" version="3.6.0">
       <description>General Timer</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.6.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mmu" variant="" vendor="Renesas" version="3.6.0">
       <description>Memory Management Unit</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_scif_uart" variant="" vendor="Renesas" version="3.6.0">
       <description>SCIF UART</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="3.6.0">
       <description>r_gether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.6.0">
       <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RZA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RZA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.1+fsp.3.5.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.1+fsp.3.6.0">
       <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.3.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.1+fsp.3.5.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.1+fsp.3.6.0">
       <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.3.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="config" variant="" vendor="Renesas" version="3.6.0">
+      <description>RZA Configuration Template File</description>
+      <originalPack>Renesas.RZA_config.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rza3ul_smarc_qspi" variant="" vendor="Renesas" version="3.6.0">
+      <description>RZ/A3UL Evaluation Board Kit QSPI Edition (Exec with DDR SDRAM) Board Support Files</description>
+      <originalPack>Renesas.RZA_board_rza3ul_smarc_qspi.3.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -317,6 +322,21 @@
       <property id="rtos.awsfreertos.thread.context" value="NULL"/>
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.dynamic"/>
     </context>
+    <config id="config.driver.gtm">
+      <property id="config.driver.gtm.param_checking_enable" value="config.driver.gtm.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.driver.scif_uart">
+      <property id="config.driver.scif_uart.param_checking_enable" value="config.driver.scif_uart.param_checking_enable.bsp"/>
+      <property id="config.driver.scif_uart.dmac_enable" value="config.driver.scif_uart.dmac_enable.disabled"/>
+      <property id="config.driver.scif_uart.flow_control" value="config.driver.scif_uart.flow_control.disabled"/>
+    </config>
+    <config id="config.driver.ether_phy">
+      <property id="config.driver.ether_phy.param_checking_enable" value="config.driver.ether_phy.param_checking_enable.bsp"/>
+      <property id="config.driver.ether_phy.use_custom_phy_lsi" value="config.driver.ether_phy.use_custom_phy_lsi.disabled"/>
+      <property id="config.driver.ether_phy.use_reference_clock" value="config.driver.ether_phy.use_reference_clock.default"/>
+      <property id="config.driver.ether_phy.target_ksz9131rnxi" value="config.driver.ether_phy.target_ksz9131rnxi.enabled"/>
+      <property id="config.driver.ether_phy.init_phy_lsi_automatic" value="config.driver.ether_phy.init_phy_lsi_automatic.enabled"/>
+    </config>
     <config id="config.aws.freertosplus.freertosplus_tcp">
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_DEBUG_PRINTF" value="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_DEBUG_PRINTF.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE" value="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE.1"/>
@@ -370,29 +390,6 @@
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_TX_DRIVER" value="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_TX_DRIVER.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_RX_DRIVER" value="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_RX_DRIVER.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_LINKED_RX_MESSAGES" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_LINKED_RX_MESSAGES.0"/>
-    </config>
-    <config id="config.driver.ether">
-      <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.enabled"/>
-      <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0"/>
-      <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0"/>
-    </config>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
-    </config>
-    <config id="config.driver.gtm">
-      <property id="config.driver.gtm.param_checking_enable" value="config.driver.gtm.param_checking_enable.bsp"/>
-    </config>
-    <config id="config.driver.scif_uart">
-      <property id="config.driver.scif_uart.param_checking_enable" value="config.driver.scif_uart.param_checking_enable.bsp"/>
-      <property id="config.driver.scif_uart.dmac_enable" value="config.driver.scif_uart.dmac_enable.disabled"/>
-      <property id="config.driver.scif_uart.flow_control" value="config.driver.scif_uart.flow_control.disabled"/>
-    </config>
-    <config id="config.driver.ether_phy">
-      <property id="config.driver.ether_phy.param_checking_enable" value="config.driver.ether_phy.param_checking_enable.bsp"/>
-      <property id="config.driver.ether_phy.use_custom_phy_lsi" value="config.driver.ether_phy.use_custom_phy_lsi.disabled"/>
-      <property id="config.driver.ether_phy.use_reference_clock" value="config.driver.ether_phy.use_reference_clock.default"/>
-      <property id="config.driver.ether_phy.target_ksz9131rnxi" value="config.driver.ether_phy.target_ksz9131rnxi.enabled"/>
-      <property id="config.driver.ether_phy.init_phy_lsi_automatic" value="config.driver.ether_phy.init_phy_lsi_automatic.enabled"/>
     </config>
     <config id="config.awsfreertos.thread">
       <property id="config.awsfreertos.custom_freertosconfig" value=""/>
@@ -458,8 +455,16 @@
       <property id="config.awsfreertos.thread.max_length" value="192"/>
       <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled"/>
     </config>
+    <config id="config.driver.ether">
+      <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.enabled"/>
+      <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0"/>
+      <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0"/>
+    </config>
     <config id="config.driver.mmu">
       <property id="config.driver.mmu.checking" value="config.driver.mmu.checking.system"/>
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>

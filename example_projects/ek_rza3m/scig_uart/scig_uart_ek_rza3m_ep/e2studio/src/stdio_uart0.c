@@ -108,6 +108,7 @@ int stdio_read(uint8_t *pbyBuffer, uint32_t uiCount)
     {
         while(scan_write == scan_read)
         {
+            /* Wait */
 #if (BSP_CFG_RTOS == 2)
             vTaskDelay(1);
 #else

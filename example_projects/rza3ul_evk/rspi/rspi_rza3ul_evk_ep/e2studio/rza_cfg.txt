@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3UL Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     PLL1 1000000000Hz
@@ -1502,6 +1503,8 @@ FSP Configuration
       XOUT AA1 "Power, System_XOUT" - - - - - - - - IO "Read only" - 
     
   User Events
+    
+  Linker Section Mappings
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)

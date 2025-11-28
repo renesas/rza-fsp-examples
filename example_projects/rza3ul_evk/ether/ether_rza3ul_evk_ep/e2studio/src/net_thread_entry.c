@@ -3,23 +3,9 @@
  * Description  : This file contains the User Application code for the Ethernet + TCP/IP
  ***********************************************************************************************************************/
 /*
- * Copyright [2020-2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
  * 
- * This software and documentation are supplied by Renesas Electronics Corporation and/or its affiliates and may only
- * be used with products of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.
- * Renesas products are sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for
- * the selection and use of Renesas products and Renesas assumes no liability.  No license, express or implied, to any
- * intellectual property right is granted by Renesas.  This software is protected under all applicable laws, including
- * copyright laws. Renesas reserves the right to change or discontinue this software and/or this documentation.
- * THE SOFTWARE AND DOCUMENTATION IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND
- * TO THE FULLEST EXTENT PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY,
- * INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE
- * SOFTWARE OR DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.
- * TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR
- * DOCUMENTATION (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER,
- * INCLUDING, WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY
- * LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 /***********************************************************************************************************************
@@ -70,7 +56,6 @@ static uint8_t ucDNSServerAddress[4];
 
 #endif
 
-
 #if( ipconfigUSE_DHCP != 0 )
     IPV4Parameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE, RESET_VALUE}, RESET_VALUE, RESET_VALUE};
 #endif
@@ -82,7 +67,6 @@ ping_data_t     ping_data                       = {RESET_VALUE, RESET_VALUE, RES
 uint32_t        timer_counter                   = RESET_VALUE;
 ping_status_t   ping_status[USR_PING_COUNT + 1] = {RESET_VALUE};
 static NetworkInterface_t xInterfaces;
-void vApplicationIPNetworkEventHook( eIPCallbackEvent_t eNetworkEvent );
 static char const * const link_status[] = {
  "10Mbps Half Duplex\r\n"
 ,"10Mbps Full Duplex\r\n"
@@ -99,7 +83,7 @@ static char const * const link_status[] = {
  * @param[in]  void
  * @retval     Random Number
  **********************************************************************************************************************/
-uint32_t ulRand ()
+uint32_t ul_rand ()
 {
     /* example of a 32-bit random number generator.
      * Here rand() returns a 15-bit number. so create 32 bit Random number using 15 bit rand()
@@ -127,7 +111,7 @@ uint32_t ulApplicationGetNextSequenceNumber (uint32_t ulSourceAddress,
      * This is just for testing purpose, so software rand() is okay.
      * This can also be tied to the TRNG.
      */
-    return (ulSourceAddress + ulDestinationAddress + usSourcePort + usDestinationPort) && ulRand();
+    return (ulSourceAddress + ulDestinationAddress + usSourcePort + usDestinationPort) && ul_rand();
 }
 
 /*******************************************************************************************************************//**
@@ -135,7 +119,7 @@ uint32_t ulApplicationGetNextSequenceNumber (uint32_t ulSourceAddress,
  * @param[in]  IP address to Ping
  * @retval     Sequence Number
  **********************************************************************************************************************/
-BaseType_t vSendPing (const char * pcIPAddress)
+BaseType_t v_send_ping (const char * pcIPAddress)
 {
     uint32_t ulIPAddress = RESET_VALUE;
 
@@ -233,7 +217,7 @@ void net_thread_entry (void * pvParameters)
     while (true)
     {
         /* Check if Both the Ethernet Link and IP link are UP */
-        if (SUCCESS == isNetworkUp())
+        if (SUCCESS == is_network_up())
         {
             /* usr_print_ability is added to avoid multiple UP messages or Down Messages repeating*/
             if (!(PRINT_UP_MSG_DISABLE & usr_print_ability))
@@ -258,14 +242,14 @@ void net_thread_entry (void * pvParameters)
 #if (ipconfigUSE_DHCP != 0)
 
                 /* Display the New IP credentials obtained from the DHCP server */
-                updateDhcpResponseToUsr();
+                update_dhcp_response_to_usr();
 #endif
 
                 /* Updated IP credentials on to the console */
                 print_ipconfig();
 
                 /*DNS lookup for the Domain name requested. This is Synchronous Activity */
-                dnsQuerryFunc((char *)gp_domain_name);
+                dns_querry_func((char *)gp_domain_name);
             }
 
             if (!(PRINT_NWK_USR_MSG_DISABLE & usr_print_ability))
@@ -282,7 +266,7 @@ void net_thread_entry (void * pvParameters)
                  */
                 timer_counter = 0;
                 uint32_t request_num;
-                request_num = (uint32_t) vSendPing((char *) gp_remote_ip_address);
+                request_num = (uint32_t) v_send_ping((char *) gp_remote_ip_address);
 
                 if( request_num == pdFAIL )
                 {
@@ -350,7 +334,7 @@ void net_thread_entry (void * pvParameters)
             vTaskDelay(500);
             if (!(PRINT_NWK_USR_MSG_DISABLE & usr_print_ability))
             {
-                print_pingResult();
+                print_ping_result();
                 usr_print_ability |= PRINT_NWK_USR_MSG_DISABLE;
             }
         }
@@ -499,7 +483,7 @@ uint32_t average_time (ping_status_t pings_status[])
  * @param[in]  void
  * @retval     None
  **********************************************************************************************************************/
-void print_pingResult (void)
+void print_ping_result (void)
 {
     APP_PRINT("\r\n\r\nPing Statistics for %s:", (char *) gp_remote_ip_address);
     APP_PRINT("\r\n  Packets: Sent = %02d, Received = %02d, Lost = %d (%d%% loss)\r\n",
@@ -584,7 +568,7 @@ void print_ipconfig (void)
  * @param[in]  Domain name
  * @retval     None
  **********************************************************************************************************************/
-void dnsQuerryFunc (char * domain)
+void dns_querry_func (char * domain)
 {
     uint32_t ulIPAddress = RESET_VALUE;
     int8_t   cBuffer[16] = {RESET_VALUE};
@@ -612,7 +596,7 @@ void dnsQuerryFunc (char * domain)
  * @param[in]  None
  * @retval     Network Status
  **********************************************************************************************************************/
-uint32_t isNetworkUp (void)
+uint32_t is_network_up (void)
 {
     fsp_err_t  eth_link_status = FSP_ERR_NOT_OPEN;
     BaseType_t networkUp       = pdFALSE;
@@ -642,20 +626,18 @@ uint32_t isNetworkUp (void)
         {
             network_status |= ETHERNET_LINK_DOWN;
         }
-        else if (FSP_SUCCESS == eth_link_status)
+        else   /* eth_link_status == FSP_SUCCESS */
         {
             network_status |= ETHERNET_LINK_UP;
         }
-
         if (pdTRUE != networkUp)
         {
             network_status |= IP_LINK_DOWN;
         }
-        else if (pdTRUE == networkUp)
+        else    /* pdTRUE == networkUp */
         {
             network_status |= IP_LINK_UP;
         }
-
         return network_status;
     }
 }
@@ -666,7 +648,7 @@ uint32_t isNetworkUp (void)
  * @retval     None
  **********************************************************************************************************************/
 #if (ipconfigUSE_DHCP != 0)
-void updateDhcpResponseToUsr (void)
+void update_dhcp_response_to_usr (void)
 {
     if (dhcp_in_use)
     {
@@ -690,23 +672,3 @@ const char * pcApplicationHostnameHook (void)
 }
 
 #endif
-void vApplicationIPNetworkEventHook( eIPCallbackEvent_t eNetworkEvent )
-{
-static BaseType_t xTasksAlreadyCreated = pdFALSE;
-
-    /* Both eNetworkUp and eNetworkDown events can be processed here. */
-    if( eNetworkEvent == eNetworkUp )
-    {
-        /* Create the tasks that use the TCP/IP stack if they have not already
-        been created. */
-        if( xTasksAlreadyCreated == pdFALSE )
-        {
-            /*
-             * For convenience, tasks that use FreeRTOS-Plus-TCP can be created here
-             * to ensure they are not created before the network is usable.
-             */
-
-            xTasksAlreadyCreated = pdTRUE;
-        }
-    }
-}

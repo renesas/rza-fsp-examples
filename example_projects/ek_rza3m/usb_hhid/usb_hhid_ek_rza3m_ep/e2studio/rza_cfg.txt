@@ -11,8 +11,6 @@ FSP Configuration
     series: 2
     
   RZA3M Family
-    Clocks: MSTP Change Delays: Enabled
-    Clocks: Settling Delay (us): 150
     
   RZ/A FSP Common
     Secure stack size (bytes): 0x200
@@ -24,6 +22,9 @@ FSP Configuration
     Error Log: No Error Log
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    
+  RZ/A FSP Common
+    Save FPU registers during interrupt handler: Enabled
     
   Clocks
     ICLK Div /1
@@ -535,6 +536,8 @@ FSP Configuration
     
   User Events
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -686,8 +689,8 @@ FSP Configuration
     Memory Allocation: Dynamic
     
     Instance "FreeRTOS Heap 4"
-    Instance "g_hhid USB HHID (r_usb_hhid)"
-      Name: g_hhid
+    Instance "g_usb_hhid USB HHID (r_usb_hhid)"
+      Name: g_usb_hhid
       
       Instance "g_usb_basic USB (r_usb_basic)"
         Name: g_usb_basic

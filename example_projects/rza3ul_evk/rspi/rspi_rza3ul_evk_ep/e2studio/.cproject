@@ -159,6 +159,7 @@
 									<listOptionValue builtIn="false" value="&quot;.\rza/board/rza3ul_smarc_qspi_xip\board_leds.o&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.usescanffloat.1594911648" name="Use float with nano scanf (-u _scanf_float)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.usescanffloat" useByScannerDiscovery="false" value="false" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.managedbuild.gcc.rz.archives.includeFiles.654902226" name="Standard archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.rz.archives.includeFiles" valueType="libs"/>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.rz.inputType.linker.c.375470700" superClass="com.renesas.cdt.managedbuild.gcc.rz.inputType.linker.c">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinputdependency" paths="$(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS)"/>
@@ -173,6 +174,7 @@
 									<listOptionValue builtIn="false" value="&quot;rza3ul_smarc_qspi.ld&quot;"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.gcc.rz.option.linker.cpp.entrypoint.181929636" name="Entry Point:" superClass="com.renesas.cdt.managedbuild.gcc.rz.option.linker.cpp.entrypoint" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.managedbuild.gcc.rz.archives.cpp.includeFiles.1661086050" name="Standard archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.rz.archives.cpp.includeFiles" valueType="libs"/>
 							</tool>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.archiver.1020910533" name="Cross ARM GNU Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.archiver"/>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.flash.1341282184" name="Cross ARM GNU Create Flash Image" superClass="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.flash"/>
@@ -314,6 +316,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/script&quot;"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.gcc.rz.option.linker.entrypoint.316062668" name="Entry Point:" superClass="com.renesas.cdt.managedbuild.gcc.rz.option.linker.entrypoint" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.managedbuild.gcc.rz.archives.includeFiles.1661304998" name="Standard archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.rz.archives.includeFiles" valueType="libs"/>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.rz.inputType.linker.c.712182497" superClass="com.renesas.cdt.managedbuild.gcc.rz.inputType.linker.c">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinputdependency" paths="$(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS)"/>
@@ -328,6 +331,7 @@
 									<listOptionValue builtIn="false" value="&quot;rza3ul_smarc_qspi.ld&quot;"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.gcc.rz.option.linker.cpp.entrypoint.2062922020" name="Entry Point:" superClass="com.renesas.cdt.managedbuild.gcc.rz.option.linker.cpp.entrypoint" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.managedbuild.gcc.rz.archives.cpp.includeFiles.1132447645" name="Standard archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.rz.archives.cpp.includeFiles" valueType="libs"/>
 							</tool>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.archiver.1008887394" name="Cross ARM GNU Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.archiver"/>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.flash.1230897108" name="Cross ARM GNU Create Flash Image" superClass="com.renesas.cdt.managedbuild.gcc.rz.aarch64.none.tool.flash"/>
